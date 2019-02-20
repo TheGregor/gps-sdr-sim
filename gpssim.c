@@ -1566,7 +1566,7 @@ int checkSatVisibility(ephem_t eph, gpstime_t g, double *xyz, double elvMask, do
 	if (azel[1]*R2D > elvMask)
 		return (1); // Visible
 	// else
-	return (1); // Invisible
+	return (0); // Invisible
 }
 
 int allocateChannel(channel_t *chan, ephem_t *eph, ionoutc_t ionoutc, gpstime_t grx, double *xyz, double elvMask)
