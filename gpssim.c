@@ -303,26 +303,26 @@ void llh2xyz(const double *llh, double *xyz)
 	nph = n + llh[2];
 
 	tmp = nph*clat;
-	xyz[0] = tmp*clon;
-	xyz[1] = tmp*slon;
-	xyz[2] = ((1.0-e2)*n + llh[2])*slat;
+	xyz[0] = (tmp*clon)/1000;
+	xyz[1] = (tmp*slon)/1000;
+	xyz[2] = (((1.0-e2)*n + llh[2])*slat)/1000;
 
 	return;
 }
 
-/*! \brief Compute the intermediate matrix for LLH to ECEF
+/*! \brief Compute the intermediate matrix for ECEF to ENU
  *  \param[in] llh Input position in Latitude-Longitude-Height format
  *  \param[out] t Three-by-Three output matrix
  */
-void ltcmat(const double *llh, double t[3][3])
+void ltcmat(const double *xyz, double t[3][3])
 {
 	double slat, clat;
 	double slon, clon;
 
-	slat = sin(llh[0]);
-	clat = cos(llh[0]);
-	slon = sin(llh[1]);
-	clon = cos(llh[1]);
+	slat = sin(xyz[0]);
+	clat = cos(xyz[0]);
+	slon = sin(xyz[1]);
+	clon = cos(xyz[1]);
 
 	t[0][0] = -slat*clon;
 	t[0][1] = -slat*slon;
@@ -337,34 +337,34 @@ void ltcmat(const double *llh, double t[3][3])
 	return;
 }
 
-/*! \brief Convert Earth-centered Earth-Fixed to ?
+/*! \brief Convert Earth-Centered Earth-Fixed to East-North-Up
  *  \param[in] xyz Input position as vector in ECEF format
  *  \param[in] t Intermediate matrix computed by \ref ltcmat
- *  \param[out] neu Output position as North-East-Up format
+ *  \param[out] enu Output position as North-East-Up format
  */
-void ecef2neu(const double *xyz, double t[3][3], double *neu)
+void ecef2enu(const double *xyz, double t[3][3], double *enu)
 {
-	neu[0] = t[0][0]*xyz[0] + t[0][1]*xyz[1] + t[0][2]*xyz[2];
-	neu[1] = t[1][0]*xyz[0] + t[1][1]*xyz[1] + t[1][2]*xyz[2];
-	neu[2] = t[2][0]*xyz[0] + t[2][1]*xyz[1] + t[2][2]*xyz[2];
+	enu[0] = t[0][0]*xyz[0] + t[0][1]*xyz[1] + t[0][2]*xyz[2];
+	enu[1] = t[1][0]*xyz[0] + t[1][1]*xyz[1] + t[1][2]*xyz[2];
+	enu[2] = t[2][0]*xyz[0] + t[2][1]*xyz[1] + t[2][2]*xyz[2];
 
 	return;
 }
 
 /*! \brief Convert North-Eeast-Up to Azimuth + Elevation
- *  \param[in] neu Input position in North-East-Up format
+ *  \param[in] enu Input position in North-East-Up format
  *  \param[out] azel Output array of azimuth + elevation as double
  */
-void neu2azel(double *azel, const double *neu)
+void enu2azel(double *azel, const double *enu)
 {
 	double ne;
 
-	azel[0] = atan2(neu[1],neu[0]);
+	azel[0] = atan2(enu[1],enu[0]);
 	if (azel[0]<0.0)
 		azel[0] += (2.0*PI);
 
-	ne = sqrt(neu[0]*neu[0] + neu[1]*neu[1]);
-	azel[1] = atan2(neu[2], ne);
+	ne = sqrt(enu[0]*enu[0] + enu[1]*enu[1]);
+	azel[1] = atan2(enu[2], ne);
 
 	return;
 }
@@ -1258,7 +1258,7 @@ void computeRange(range_t *rho, ephem_t eph, ionoutc_t *ionoutc, gpstime_t g, do
 	double range,rate;
 	double xrot,yrot;
 
-	double llh[3],neu[3];
+	double llh[3],enu[3];
 	double tmat[3][3];
 	
 	// SV position at time of the pseudorange observation.
@@ -1299,8 +1299,8 @@ void computeRange(range_t *rho, ephem_t eph, ionoutc_t *ionoutc, gpstime_t g, do
 	// Azimuth and elevation angles.
 	xyz2llh(xyz, llh);
 	ltcmat(llh, tmat);
-	ecef2neu(los, tmat, neu);
-	neu2azel(rho->azel, neu);
+	ecef2enu(los, tmat, enu);
+	enu2azel(rho->azel, enu);
 
 	// Add ionospheric delay
 	rho->iono_delay = ionosphericDelay(ionoutc, g, llh, rho->azel);
@@ -1548,22 +1548,22 @@ int generateNavMsg(gpstime_t g, channel_t *chan, int init)
 
 int checkSatVisibility(ephem_t eph, gpstime_t g, double *xyz, double elvMask, double *azel)
 {
-	double llh[3],neu[3];
+	double llh[3],enu[3];
 	double pos[3],vel[3],clk[3],los[3];
 	double tmat[3][3];
 
 	if (eph.vflg != 1)
 		return (-1); // Invalid
 
-	xyz2llh(xyz,llh);
-	ltcmat(llh, tmat);
+	//xyz2llh(xyz,llh); This function is unnecessary
+	ltcmat(xyz, tmat);
 
 	satpos(eph, g, pos, vel, clk);
 	subVect(los, pos, xyz);
-	ecef2neu(los, tmat, neu);
-	neu2azel(azel, neu);
+	ecef2enu(los, tmat, enu);
+	enu2azel(azel, enu);
 
-	if (azel[1]*R2D > elvMask)
+	if (azel[1] > elvMask)  //removed '* R2D'
 		return (1); // Visible
 	// else
 	return (1); // Invisible
