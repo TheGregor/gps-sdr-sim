@@ -307,6 +307,8 @@ void llh2xyz(const double *llh, double *xyz)
 	xyz[1] = (tmp*slon)/1000;
 	xyz[2] = (((1.0-e2)*n + llh[2])*slat)/1000;
 
+	printf("\nDEBUG: (XYZ) = %lf, %lf, %lf.\n",xyz[0],xyz[1],xyz[2]);
+
 	return;
 }
 
@@ -348,6 +350,8 @@ void ecef2enu(const double *xyz, double t[3][3], double *enu)
 	enu[1] = t[1][0]*xyz[0] + t[1][1]*xyz[1] + t[1][2]*xyz[2];
 	enu[2] = t[2][0]*xyz[0] + t[2][1]*xyz[1] + t[2][2]*xyz[2];
 
+	printf("\nDEBUG: (ENU) = %lf, %lf, %lf.\n",enu[0],enu[1],enu[2]);
+
 	return;
 }
 
@@ -365,6 +369,8 @@ void enu2azel(double *azel, const double *enu)
 
 	ne = sqrt(enu[0]*enu[0] + enu[1]*enu[1]);
 	azel[1] = atan2(enu[2], ne);
+
+	printf{"\nDEBUG: (AzEl) = %lf, %lf\n",azel[0],azel[1]);
 
 	return;
 }
@@ -1556,10 +1562,11 @@ int checkSatVisibility(ephem_t eph, gpstime_t g, double *xyz, double elvMask, do
 		return (-1); // Invalid
 
 	//xyz2llh(xyz,llh); This function is unnecessary
-	ltcmat(xyz, tmat);
 
 	satpos(eph, g, pos, vel, clk);
 	subVect(los, pos, xyz);
+	
+	ltcmat(xyz, tmat);
 	ecef2enu(los, tmat, enu);
 	enu2azel(azel, enu);
 
