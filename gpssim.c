@@ -350,7 +350,7 @@ void ecef2enu(const double *xyz, double t[3][3], double *enu)
 	enu[1] = t[1][0]*xyz[0] + t[1][1]*xyz[1] + t[1][2]*xyz[2];
 	enu[2] = t[2][0]*xyz[0] + t[2][1]*xyz[1] + t[2][2]*xyz[2];
 
-	printf("\nDEBUG: (ENU) = %lf, %lf, %lf.\n",enu[0],enu[1],enu[2]);
+	//printf("\nDEBUG: (ENU) = %lf, %lf, %lf.\n",enu[0],enu[1],enu[2]);
 
 	return;
 }
@@ -370,7 +370,7 @@ void enu2azel(double *azel, const double *enu)
 	ne = sqrt(enu[0]*enu[0] + enu[1]*enu[1]);
 	azel[1] = atan2(enu[2], ne);
 
-	printf("\nDEBUG: (AzEl) = %lf, %lf\n",azel[0],azel[1]);
+	//printf("\nDEBUG: (AzEl) = %lf, %lf\n",azel[0],azel[1]);
 
 	return;
 }
