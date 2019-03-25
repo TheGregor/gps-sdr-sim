@@ -269,8 +269,6 @@ void xyz2llh(const double *xyz, double *llh)
 	llh[1] = atan2(y, x);
 	llh[2] = nh - n;
 
-	printf("DEBUG: Lat/Lon/Alt = %lf, %lf, %lf",llh[0],llh[1],llh[2]);
-
 	return;
 }
 
@@ -323,10 +321,10 @@ void ltcmat(const double *llh, double t[3][3])
 	double slat, clat;
 	double slon, clon;
 
-	slat = sin(llh[0]);		
-	clat = cos(llh[0]);		
-	slon = sin(llh[1]);		
-	clon = cos(llh[1]);
+	slat = sin(llh[0]*R2D);		
+	clat = cos(llh[0]*R2D);		
+	slon = sin(llh[1]*R2D);		
+	clon = cos(llh[1]*R2D);
 
 	//t[0][0] = -slat*clon;
 	//t[0][1] = -slat*slon;
@@ -1573,7 +1571,7 @@ int checkSatVisibility(ephem_t eph, gpstime_t g, double *xyz, double elvMask, do
 	satpos(eph, g, pos, vel, clk);
 	subVect(los, pos, xyz);
 	
-	xyz2llh(xyz,llh);
+	//xyz2llh(xyz,llh);
 	ltcmat(llh, tmat);
 	ecef2enu(los, tmat, enu);
 	enu2azel(azel, enu);
