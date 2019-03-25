@@ -338,7 +338,7 @@ void ltcmat(const double *llh, double t[3][3])
 	
 	t[0][0] = -slon; 
 	t[0][1] = clon;
-	t[0][2] = 0.0
+	t[0][2] = 0.0;
 	t[1][0] = -slat*clon;
 	t[1][1] = -slat*slon;
 	t[1][2] = clat;
