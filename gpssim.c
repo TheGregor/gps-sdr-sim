@@ -321,10 +321,10 @@ void ltcmat(const double *llh, double t[3][3])
 	double slat, clat;
 	double slon, clon;
 
-	slat = sin(llh[0]);		
-	clat = cos(llh[0]);		
-	slon = sin(llh[1]);		
-	clon = cos(llh[1]);
+	slat = sin(llh[0]*R2D);		
+	clat = cos(llh[0]*R2D);		
+	slon = sin(llh[1]*R2D);		
+	clon = cos(llh[1]*R2D);
 
 	//t[0][0] = -slat*clon;
 	//t[0][1] = -slat*slon;
