@@ -269,6 +269,8 @@ void xyz2llh(const double *xyz, double *llh)
 	llh[1] = atan2(y, x);
 	llh[2] = nh - n;
 
+	printf("DEBUG: Lat/Lon/Alt = %lf, %lf, %lf",llh[0],llh[1],llh[2]);
+
 	return;
 }
 
