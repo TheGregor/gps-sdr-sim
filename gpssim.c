@@ -321,10 +321,10 @@ void ltcmat(const double *llh, double t[3][3])
 	double slat, clat;
 	double slon, clon;
 
-	slat = sin(llh[0]*R2D);		//llh values must be mult
-	clat = cos(llh[0]*R2D);		//by R2D to correct for
-	slon = sin(llh[1]*R2D);		//initial conversion in main()
-	clon = cos(llh[1]*R2D);
+	slat = sin(llh[0]);		
+	clat = cos(llh[0]);		
+	slon = sin(llh[1]);		
+	clon = cos(llh[1]);
 
 	//t[0][0] = -slat*clon;
 	//t[0][1] = -slat*slon;
@@ -1570,12 +1570,11 @@ int checkSatVisibility(ephem_t eph, gpstime_t g, double *xyz, double elvMask, do
 	if (eph.vflg != 1)
 		return (-1); // Invalid
 
-	//xyz2llh(xyz,llh); This function is unnecessary
-
 	satpos(eph, g, pos, vel, clk);
 	subVect(los, pos, xyz);
 	
-	ltcmat(xyz, tmat);
+	xyz2llh(xyz,llh);
+	ltcmat(llh, tmat);
 	ecef2enu(los, tmat, enu);
 	enu2azel(azel, enu);
 
