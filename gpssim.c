@@ -1573,7 +1573,7 @@ int checkSatVisibility(ephem_t eph, gpstime_t g, double *xyz, double elvMask, do
 	satpos(eph, g, pos, vel, clk);
 	subVect(los, pos, xyz);
 	
-	//xyz2llh(xyz,llh);
+	xyz2llh(xyz,llh);
 	ltcmat(llh, tmat);
 	ecef2enu(los, tmat, enu);
 	enu2azel(azel, enu);
