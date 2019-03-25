@@ -12,6 +12,8 @@
 #endif
 #include "gpssim.h"
 
+#define PI - 3.14159265
+
 int sinTable512[] = {
 	   2,   5,   8,  11,  14,  17,  20,  23,  26,  29,  32,  35,  38,  41,  44,  47,
 	  50,  53,  56,  59,  62,  65,  68,  71,  74,  77,  80,  83,  86,  89,  91,  94,
@@ -372,14 +374,12 @@ void enu2azel(double *azel, const double *enu)
 {
 	double ne;
 
-	azel[0] = atan2(enu[1],enu[0]);
-	if (azel[0]<0.0)
-		azel[0] += (2.0*PI);
+	azel[0] = atan2(enu[1],enu[0]); //in radians
+	//if (azel[0]<0.0)
+	//	azel[0] += (2.0*PI);
 
 	ne = sqrt(enu[0]*enu[0] + enu[1]*enu[1]);
 	azel[1] = atan2(enu[2], ne);
-
-	//printf("\nDEBUG: (AzEl) = %lf, %lf\n",azel[0],azel[1]);
 
 	return;
 }
