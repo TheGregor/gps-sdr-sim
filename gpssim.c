@@ -316,22 +316,32 @@ void llh2xyz(const double *llh, double *xyz)
  *  \param[in] llh Input position in Latitude-Longitude-Height format
  *  \param[out] t Three-by-Three output matrix
  */
-void ltcmat(const double *xyz, double t[3][3])
+void ltcmat(const double *llh, double t[3][3])
 {
 	double slat, clat;
 	double slon, clon;
 
-	slat = sin(xyz[0]);
-	clat = cos(xyz[0]);
-	slon = sin(xyz[1]);
-	clon = cos(xyz[1]);
+	slat = sin(llh[0]*R2D);		//llh values must be mult
+	clat = cos(llh[0]*R2D);		//by R2D to correct for
+	slon = sin(llh[1]*R2D);		//initial conversion in main()
+	clon = cos(llh[1]*R2D);
 
-	t[0][0] = -slat*clon;
-	t[0][1] = -slat*slon;
-	t[0][2] = clat;
-	t[1][0] = -slon;
-	t[1][1] = clon;
-	t[1][2] = 0.0;
+	//t[0][0] = -slat*clon;
+	//t[0][1] = -slat*slon;
+	//t[0][2] = clat;
+	//t[1][0] = -slon;
+	//t[1][1] = clon;
+	//t[1][2] = 0.0;
+	//t[2][0] = clat*clon;
+	//t[2][1] = clat*slon;
+	//t[2][2] = slat;
+	
+	t[0][0] = -slon; 
+	t[0][1] = clon;
+	t[0][2] = 0.0
+	t[1][0] = -slat*clon;
+	t[1][1] = -slat*slon;
+	t[1][2] = clat;
 	t[2][0] = clat*clon;
 	t[2][1] = clat*slon;
 	t[2][2] = slat;
@@ -339,18 +349,17 @@ void ltcmat(const double *xyz, double t[3][3])
 	return;
 }
 
-/*! \brief Convert Earth-Centered Earth-Fixed to East-North-Up
- *  \param[in] xyz Input position as vector in ECEF format
+/*! \brief Second part of conversion from Earth-Centered Earth-Fixed 
+ *   format to East-North-Up format.
+ *  \param[in] los Input Result of pos - xyz
  *  \param[in] t Intermediate matrix computed by \ref ltcmat
  *  \param[out] enu Output position as North-East-Up format
  */
-void ecef2enu(const double *xyz, double t[3][3], double *enu)
+void ecef2enu(const double *los, double t[3][3], double *enu)
 {
-	enu[0] = t[0][0]*xyz[0] + t[0][1]*xyz[1] + t[0][2]*xyz[2];
-	enu[1] = t[1][0]*xyz[0] + t[1][1]*xyz[1] + t[1][2]*xyz[2];
-	enu[2] = t[2][0]*xyz[0] + t[2][1]*xyz[1] + t[2][2]*xyz[2];
-
-	//printf("\nDEBUG: (ENU) = %lf, %lf, %lf.\n",enu[0],enu[1],enu[2]);
+	enu[0] = t[0][0]*los[0] + t[0][1]*los[1] + t[0][2]*los[2];
+	enu[1] = t[1][0]*los[0] + t[1][1]*los[1] + t[1][2]*los[2];
+	enu[2] = t[2][0]*los[0] + t[2][1]*los[1] + t[2][2]*los[2];
 
 	return;
 }
