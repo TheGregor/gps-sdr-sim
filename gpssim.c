@@ -321,10 +321,10 @@ void ltcmat(const double *llh, double t[3][3])
 	double slat, clat;
 	double slon, clon;
 
-	slat = sin(llh[0]*R2D);		
-	clat = cos(llh[0]*R2D);		
-	slon = sin(llh[1]*R2D);		
-	clon = cos(llh[1]*R2D);
+	slat = sin(llh[0]);		
+	clat = cos(llh[0]);		
+	slon = sin(llh[1]);		
+	clon = cos(llh[1]);
 
 	//t[0][0] = -slat*clon;
 	//t[0][1] = -slat*slon;
@@ -345,6 +345,8 @@ void ltcmat(const double *llh, double t[3][3])
 	t[2][0] = clat*clon;
 	t[2][1] = clat*slon;
 	t[2][2] = slat;
+
+	printf("\nDEBUG:  lat/lon/alt = %lf, %lf, %lf\n",llh[0],llh[1],llh[2]);
 
 	return;
 }
