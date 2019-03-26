@@ -233,9 +233,9 @@ void xyz2llh(const double *xyz, double *llh)
 	long double rP1,rP2,rP3,rP4;
 	long double vP1,findLat;
 
-	a = WGS84_RADIUS;
-	e = WGS84_ECCENTRICITY;
-	b = a * sqrt(1 - (e * e));
+	a = WGS84_RADIUS / 1000.0;
+	e = WGS84_ECCENTRICITY / 1000.0;
+	b = a * sqrt(1 - (e * e)) / 1000.0;
 
 	/*eps = 1.0e-3;
 	e2 = e*e;
@@ -250,9 +250,9 @@ void xyz2llh(const double *xyz, double *llh)
 		return;
 	}*/
 
-	x = xyz[0]/1000;
-	y = xyz[1]/1000;
-	z = xyz[2]/1000;
+	x = xyz[0];
+	y = xyz[1];
+	z = xyz[2];
 
 	/*rho2 = x*x + y*y;
 	dz = e2*z;
