@@ -274,34 +274,54 @@ void xyz2llh(const double *xyz, double *llh)
 
 	//Ferrari Solution
 	r = sqrt((x*x) + (y*y));
+	printf("\nDEBUG: r = %lf",r);
 	er2 = ((a*a) - (b*b)) / (b*b);
+	printf("\nDEBUG: er2 = %lf",er2);
 	F = 54 * (b*b) * (z*z);
+	printf("\nDEBUG: F = %lf",F);
 
 	ab2 = ((a*a) - (b*b));	//space saver
+	printf("\nDEBUG: ab2 = %lf",ab2);
 
 	G = (r*r) + ((1 - (e*e)) * (z*z)) - ((e*e) * (ab2*ab2));
+	printf("\nDEBUG: G = %lf",G);
 	c = ((e*e*e*e) * F * (r*r)) / (G*G*G);
+	printf("\nDEBUG: c = %lf",c);
 	s = cbrt( 1 + c + sqrt((c*c) + (2*c)));
+	printf("\nDEBUG: s = %lf",s);
 
 	sComb = s + (1/s) + 1;	//space saver
+	printf("\nDEBUG: sComb = %lf",sComb);
 
 	P = F / (3 * (sComb*sComb) * (G*G));
+	printf("\nDEBUG: P = %lf",P);
 	Q = sqrt( 1 + (2*(e*e*e*e)*P));
+	printf("\nDEBUG: Q = %lf",Q);
 
-	rP1 = -(P*(e*e)*r) / (1 + Q);		//space saver
+	rP1 = -(P*(e*e)*r) / (1 + Q);	//space saver
+	printf("\nDEBUG: rP1 = %lf",rP1);
 	rP2 = (0.5 * (a*a)) * (1 + (1/Q));	//space saver
+	printf("\nDEBUG: rP2 = %lf",rP2);
 	rP3 = (P * (1 - (e*e)) * (z*z)) / (Q * (1 + Q));	//space saver
+	printf("\nDEBUG: rP3 = %lf",rP3);
 	rP4 = (0.5 * P * (r*r));		//space saver
+	printf("\nDEBUG: rP4 = %lf",rP4);
 
 	r0 = rP1 + sqrt( rP2 - rP3 - rP4);
+	printf("\nDEBUG: r0 = %lf",r0);
 	U = sqrt( (r - ((e*e) * r0)) + (z*z));
+	printf("\nDEBUG: U = %lf",U);
 
 	vP1 = (r - ((e*e) * r0));	//space saver
+	printf("\nDEBUG: vP1 = %lf",vP1);
 
 	V = sqrt((vP1 * vP1) + ((1 - (e*e)) * (z*z)));
+	printf("\nDEBUG: V = %lf",V);
 	z0 = ((b*b) * z) / (a * V);
+	printf("\nDEBUG: z0 = %lf",z0);
 	
 	findLat = (z + (er2 * z0));	//space saver
+	printf("\nDEBUG: findLat = %lf",findLat);
 
 	llh[0] = atan(findLat / r) * R2D;
 	llh[1] = atan2(y, x) * R2D;
