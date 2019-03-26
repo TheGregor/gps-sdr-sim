@@ -12,6 +12,8 @@
 #endif
 #include "gpssim.h"
 
+#define sgn(v) ( ( (v) < 0 ) ? -1 : ( (v) > 0 ) )
+
 int sinTable512[] = {
 	   2,   5,   8,  11,  14,  17,  20,  23,  26,  29,  32,  35,  38,  41,  44,  47,
 	  50,  53,  56,  59,  62,  65,  68,  71,  74,  77,  80,  83,  86,  89,  91,  94,
@@ -81,10 +83,6 @@ int cosTable512[] = {
 	 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 241, 242, 243, 244, 244, 245,
 	 245, 246, 247, 247, 248, 248, 248, 249, 249, 249, 249, 250, 250, 250, 250, 250
 };
-
-template <typename T> int sgn(T val) {
-	    return (T(0) < val) - (val < T(0));
-}
 
 // Receiver antenna attenuation in dB for boresight angle = 0:5:180 [deg]
 double ant_pat_db[37] = {
