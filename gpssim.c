@@ -233,9 +233,9 @@ void xyz2llh(const double *xyz, double *llh)
 	long double rP1,rP2,rP3,rP4;
 	long double vP1,findLat;
 
-	a = WGS84_RADIUS / 1000.0;
-	e = WGS84_ECCENTRICITY / 1000.0;
-	b = a * sqrt(1 - (e * e)) / 1000.0;
+	a = WGS84_RADIUS / 100.0;
+	e = WGS84_ECCENTRICITY / 100.0;
+	b = a * sqrt(1 - (e * e)) / 100.0;
 
 	/*eps = 1.0e-3;
 	e2 = e*e;
@@ -323,9 +323,9 @@ void xyz2llh(const double *xyz, double *llh)
 	findLat = (z + (er2 * z0));	//space saver
 	printf("\nDEBUG: findLat = %Lf",findLat);
 
-	llh[0] = (atan(findLat / r) * 1000) * R2D;
-	llh[1] = (atan2(y, x) * 1000) * R2D;
-	llh[2] = ((U * (1 - ((b*b) / (a*V)))) * 1000) * R2D;
+	llh[0] = atan2(findLat, r) * R2D;
+	llh[1] = atan2(y, x) * R2D;
+	llh[2] = (U * (1 - ((b*b) / (a*V)))) * R2D;
 
 	printf("\nDEBUG: XYZ = %lf, %lf, %lf\n",xyz[0],xyz[1],xyz[2]);
 	printf("\nDEBUG: LLH = %lf, %lf, %lf\n",llh[0],llh[1],llh[2]);
