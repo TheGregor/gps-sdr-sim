@@ -82,6 +82,10 @@ int cosTable512[] = {
 	 245, 246, 247, 247, 248, 248, 248, 249, 249, 249, 249, 250, 250, 250, 250, 250
 };
 
+template <typename T> int sgn(T val) {
+	    return (T(0) < val) - (val < T(0));
+}
+
 // Receiver antenna attenuation in dB for boresight angle = 0:5:180 [deg]
 double ant_pat_db[37] = {
 	 0.00,  0.00,  0.22,  0.44,  0.67,  1.11,  1.56,  2.00,  2.44,  2.89,  3.56,  4.22,
@@ -301,9 +305,9 @@ void xyz2llh(const double *xyz, double *llh)
 	t = (sqrt( (a*a) - (b*b) + 1 - v + (((2*a)*((b*b)+1)) / U)) + U - A) / 2;
 	printf("\nDEBUG: t = %lf",t);
 
-	llh[0] = (z*atan((a*t) / (b*sqrt(1 - (t*t))))) * R2D;
+	llh[0] = (sgn(z)*atan((a*t) / (b*sqrt(1 - (t*t))))) * R2D;
 	llh[1] = atan2(y, x) * R2D;
-	llh[2] = ((abs(z) / (t-b)) * sqrt(1 - ((e*e) *(1 - (t*t))))) * R2D;
+	llh[2] = (abs(z) / (t-b)) * sqrt(1 - ((e*e) *(1 - (t*t))));
 
 	printf("\nDEBUG: XYZ = %lf, %lf, %lf\n",xyz[0],xyz[1],xyz[2]);
 	printf("\nDEBUG: LLH = %lf, %lf, %lf\n",llh[0],llh[1],llh[2]);
