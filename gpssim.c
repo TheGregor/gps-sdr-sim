@@ -272,15 +272,34 @@ void xyz2llh(const double *xyz, double *llh)
 
 	//Barbee Solution
 	r = sqrt((x*x) + (y*y));
+	printf("\nDEBUG: r = %lf",r);
+
 	A = (b * abs(z)) / ((a*a) * (b*b));
+	printf("\nDEBUG: A = %lf",A);
+
 	B = (a * r) / ((a*a) - (b*b));
+	printf("\nDEBUG: B = %lf",B);
+
 	P = ((a*a) + (b*b) - 1) / 3;
+	printf("\nDEBUG: P = %lf",P);
+
 	S = 2 * (a*a) * (b*b);
+	printf("\nDEBUG: S = %lf",S);
+
 	Q = (P*P*P) + S;
+	printf("\nDEBUG: Q = %lf",Q);
+
 	D = sqrt(((2*Q) - S)*S);
+	printf("\nDEBUG: D = %lf",D);
+
 	v = cbrt(Q+D) + cbrt(Q-D) + P;
+	printf("\nDEBUG: v = %lf",v);
+
 	U = sqrt(v - (b*b) + 1);
+	printf("\nDEBUG: U = %lf",U);
+
 	t = (sqrt( (a*a) - (b*b) + 1 - v + (((2*A)*((b*b)+1)) / U)) + U - A) / 2;
+	printf("\nDEBUG: t = %lf",t);
 
 	llh[0] = (z*atan((a*t) / (b*sqrt(1 - (t*t))))) * R2D;
 	llh[1] = atan2(y, x) * R2D;
