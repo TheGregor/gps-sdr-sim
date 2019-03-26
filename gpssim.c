@@ -224,14 +224,20 @@ void gps2date(const gpstime_t *g, datetime_t *t)
  */
 void xyz2llh(const double *xyz, double *llh)
 {
-	double a,eps,e,e2;
+	double a,b,e;
 	double x,y,z;
-	double rho2,dz,zdz,nh,slat,n,dz_new;
+	//double rho2,dz,zdz,nh,slat,n,dz_new;
+	double r,er0,F,G,c;
+	double s,P,Q,r0,U;
+	double V,z0,ab2,sComb;
+	double rP1,rP2,rP3,rP4;
+	double vP1,findLat;
 
 	a = WGS84_RADIUS;
 	e = WGS84_ECCENTRICITY;
+	b = a * sqrt(1 - (e * e));
 
-	eps = 1.0e-3;
+	/*eps = 1.0e-3;
 	e2 = e*e;
 
 	if (normVect(xyz)<eps)
@@ -242,13 +248,13 @@ void xyz2llh(const double *xyz, double *llh)
 		llh[2] = -a;
 
 		return;
-	}
+	}*/
 
 	x = xyz[0];
 	y = xyz[1];
 	z = xyz[2];
 
-	rho2 = x*x + y*y;
+	/*rho2 = x*x + y*y;
 	dz = e2*z;
 
 	while (1)
@@ -263,11 +269,43 @@ void xyz2llh(const double *xyz, double *llh)
 			break;
 
 		dz = dz_new;
-	}
+	}*/
 
-	llh[0] = atan2(zdz, sqrt(rho2));
-	llh[1] = atan2(y, x);
-	llh[2] = nh - n;
+
+	//Ferrari Solution
+	r = sqrt((x*x) + (y*y));
+	er2 = ((a*a) - (b*b)) / (b*b);
+	F = (54*(b*b)) * (z*z);
+
+	ab2 = ((a*a) - (b*b));	//space saver
+
+	G = (r*r) + ((1 - (e*e)) * (z*z)) - ((e*e) * (ab2*ab2))
+	c = ((e*e*e*e) * F * (r*r)) / (G*G*G);
+	s = cbrt( 1 + c + (sqrt((c*c) + 2c)));
+
+	sComb = s + (1/s) + 1;	//space saver
+
+	P = F / (3 * (sComb*sComb) * (G*G));
+	Q = sqrt( 1 + (2*(e*e*e*e)*P));
+
+	rP1 = -(P(e*e)r) / (1 + Q);		//space saver
+	rP2 = (0.5 * (a*a)) * (1 + (1/Q));	//space saver
+	rP3 = (P * (1 - (e*e)) * (z*z)) / (Q * (1 + Q));	//space saver
+	rP4 = (0.5 * P * (r*r));		//space saver
+
+	r0 = rP1 + sqrt( rP2 - rP3 - rP4);
+	U = sqrt( (r - ((e*e) * r0)) + (z*z));
+
+	vP1 = (r - ((e*e) * r0));	//space saver
+
+	V = sqrt((vP1 * vP1) + ((1 - (e*e)) * (z*z));
+	z0 = ((b*b) * z) / (a * V);
+	
+	findLat = (z + (er0 * r0));	//space saver
+
+	llh[0] = atan2(findLat, r) * R2D;
+	llh[1] = atan2(y, x) * R2D;
+	llh[2] = U * (1 - ((b*b) / (a*V))) * R2D;
 
 	return;
 }
