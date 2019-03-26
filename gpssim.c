@@ -250,9 +250,9 @@ void xyz2llh(const double *xyz, double *llh)
 		return;
 	}*/
 
-	x = xyz[0];
-	y = xyz[1];
-	z = xyz[2];
+	x = xyz[0]/R2D;
+	y = xyz[1]/R2D;
+	z = xyz[2]/R2D;
 
 	/*rho2 = x*x + y*y;
 	dz = e2*z;
