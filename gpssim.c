@@ -227,7 +227,7 @@ void xyz2llh(const double *xyz, double *llh)
 	double a,b,e;
 	double x,y,z;
 	//double rho2,dz,zdz,nh,slat,n,dz_new;
-	double r,er0,F,G,c;
+	double r,er2,F,G,c;
 	double s,P,Q,r0,U;
 	double V,z0,ab2,sComb;
 	double rP1,rP2,rP3,rP4;
@@ -279,16 +279,16 @@ void xyz2llh(const double *xyz, double *llh)
 
 	ab2 = ((a*a) - (b*b));	//space saver
 
-	G = (r*r) + ((1 - (e*e)) * (z*z)) - ((e*e) * (ab2*ab2))
+	G = (r*r) + ((1 - (e*e)) * (z*z)) - ((e*e) * (ab2*ab2));
 	c = ((e*e*e*e) * F * (r*r)) / (G*G*G);
-	s = cbrt( 1 + c + (sqrt((c*c) + 2c)));
+	s = cbrt( 1 + c + (sqrt((c*c) + (2*c))));
 
 	sComb = s + (1/s) + 1;	//space saver
 
 	P = F / (3 * (sComb*sComb) * (G*G));
 	Q = sqrt( 1 + (2*(e*e*e*e)*P));
 
-	rP1 = -(P(e*e)r) / (1 + Q);		//space saver
+	rP1 = -(P*(e*e)*r) / (1 + Q);		//space saver
 	rP2 = (0.5 * (a*a)) * (1 + (1/Q));	//space saver
 	rP3 = (P * (1 - (e*e)) * (z*z)) / (Q * (1 + Q));	//space saver
 	rP4 = (0.5 * P * (r*r));		//space saver
@@ -298,10 +298,10 @@ void xyz2llh(const double *xyz, double *llh)
 
 	vP1 = (r - ((e*e) * r0));	//space saver
 
-	V = sqrt((vP1 * vP1) + ((1 - (e*e)) * (z*z));
+	V = sqrt((vP1 * vP1) + ((1 - (e*e)) * (z*z)));
 	z0 = ((b*b) * z) / (a * V);
 	
-	findLat = (z + (er0 * r0));	//space saver
+	findLat = (z + (er2 * r0));	//space saver
 
 	llh[0] = atan2(findLat, r) * R2D;
 	llh[1] = atan2(y, x) * R2D;
