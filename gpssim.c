@@ -250,9 +250,9 @@ void xyz2llh(const double *xyz, double *llh)
 		return;
 	}*/
 
-	x = xyz[0]/R2D;
-	y = xyz[1]/R2D;
-	z = xyz[2]/R2D;
+	x = xyz[0]/1000;
+	y = xyz[1]/1000;
+	z = xyz[2]/1000;
 
 	/*rho2 = x*x + y*y;
 	dz = e2*z;
@@ -323,9 +323,9 @@ void xyz2llh(const double *xyz, double *llh)
 	findLat = (z + (er2 * z0));	//space saver
 	printf("\nDEBUG: findLat = %Lf",findLat);
 
-	llh[0] = atan(findLat / r) * R2D;
-	llh[1] = atan2(y, x) * R2D;
-	llh[2] = (U * (1 - ((b*b) / (a*V)))) * R2D;
+	llh[0] = (atan(findLat / r) * 1000) * R2D;
+	llh[1] = (atan2(y, x) * 1000) * R2D;
+	llh[2] = ((U * (1 - ((b*b) / (a*V)))) * 1000) * R2D;
 
 	printf("\nDEBUG: XYZ = %lf, %lf, %lf\n",xyz[0],xyz[1],xyz[2]);
 	printf("\nDEBUG: LLH = %lf, %lf, %lf\n",llh[0],llh[1],llh[2]);
