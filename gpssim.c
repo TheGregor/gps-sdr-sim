@@ -298,7 +298,7 @@ void xyz2llh(const double *xyz, double *llh)
 	U = sqrt(v - (b*b) + 1);
 	printf("\nDEBUG: U = %lf",U);
 
-	t = (sqrt( (a*a) - (b*b) + 1 - v + (((2*A)*((b*b)+1)) / U)) + U - A) / 2;
+	t = (sqrt( (a*a) - (b*b) + 1 - v + (((2*a)*((b*b)+1)) / U)) + U - A) / 2;
 	printf("\nDEBUG: t = %lf",t);
 
 	llh[0] = (z*atan((a*t) / (b*sqrt(1 - (t*t))))) * R2D;
