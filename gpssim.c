@@ -301,11 +301,11 @@ void xyz2llh(const double *xyz, double *llh)
 	V = sqrt((vP1 * vP1) + ((1 - (e*e)) * (z*z)));
 	z0 = ((b*b) * z) / (a * V);
 	
-	findLat = (z + (er2 * r0));	//space saver
+	findLat = (z + (er2 * z0));	//space saver
 
 	llh[0] = atan2(findLat, r) * R2D;
 	llh[1] = atan2(y, x) * R2D;
-	llh[2] = U * (1 - ((b*b) / (a*V))) * R2D;
+	llh[2] = (U * (1 - ((b*b) / (a*V)))) * R2D;
 
 	return;
 }
