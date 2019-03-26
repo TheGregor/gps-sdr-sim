@@ -229,7 +229,7 @@ void xyz2llh(const double *xyz, double *llh)
 	//double rho2,dz,zdz,nh,slat,n,dz_new;
 	double A,B,P,S;
 	double Q,D,v,U;
-	double U,t;
+	double r,t;
 
 	a = WGS84_RADIUS;
 	e = WGS84_ECCENTRICITY;
@@ -271,6 +271,7 @@ void xyz2llh(const double *xyz, double *llh)
 
 
 	//Barbee Solution
+	r = sqrt((x*x) + (y*y));
 	A = (b * abs(z)) / ((a*a) * (b*b));
 	B = (a * r) / ((a*a) - (b*b));
 	P = ((a*a) + (b*b) - 1) / 3;
