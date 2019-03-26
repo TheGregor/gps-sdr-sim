@@ -224,14 +224,14 @@ void gps2date(const gpstime_t *g, datetime_t *t)
  */
 void xyz2llh(const double *xyz, double *llh)
 {
-	double a,b,e;
-	double x,y,z;
+	long double a,b,e;
+	long double x,y,z;
 	//double rho2,dz,zdz,nh,slat,n,dz_new;
-	double r,er2,F,G,c;
-	double s,P,Q,r0,U;
-	double V,z0,ab2,sComb;
-	double rP1,rP2,rP3,rP4;
-	double vP1,findLat;
+	long double r,er2,F,G,c;
+	long double s,P,Q,r0,U;
+	long double V,z0,ab2,sComb;
+	long double rP1,rP2,rP3,rP4;
+	long double vP1,findLat;
 
 	a = WGS84_RADIUS;
 	e = WGS84_ECCENTRICITY;
