@@ -275,13 +275,13 @@ void xyz2llh(const double *xyz, double *llh)
 	//Ferrari Solution
 	r = sqrt((x*x) + (y*y));
 	er2 = ((a*a) - (b*b)) / (b*b);
-	F = (54*(b*b)) * (z*z);
+	F = 54 * (b*b) * (z*z);
 
 	ab2 = ((a*a) - (b*b));	//space saver
 
 	G = (r*r) + ((1 - (e*e)) * (z*z)) - ((e*e) * (ab2*ab2));
 	c = ((e*e*e*e) * F * (r*r)) / (G*G*G);
-	s = cbrt( 1 + c + (sqrt((c*c) + (2*c))));
+	s = cbrt( 1 + c + sqrt((c*c) + (2*c)));
 
 	sComb = s + (1/s) + 1;	//space saver
 
@@ -303,7 +303,7 @@ void xyz2llh(const double *xyz, double *llh)
 	
 	findLat = (z + (er2 * z0));	//space saver
 
-	llh[0] = atan2(findLat, r) * R2D;
+	llh[0] = atan(findLat / r) * R2D;
 	llh[1] = atan2(y, x) * R2D;
 	llh[2] = (U * (1 - ((b*b) / (a*V)))) * R2D;
 
