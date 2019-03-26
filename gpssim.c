@@ -274,54 +274,54 @@ void xyz2llh(const double *xyz, double *llh)
 
 	//Ferrari Solution
 	r = sqrt((x*x) + (y*y));
-	printf("\nDEBUG: r = %lf",r);
+	printf("\nDEBUG: r = %Lf",r);
 	er2 = ((a*a) - (b*b)) / (b*b);
-	printf("\nDEBUG: er2 = %lf",er2);
+	printf("\nDEBUG: er2 = %Lf",er2);
 	F = 54 * (b*b) * (z*z);
-	printf("\nDEBUG: F = %lf",F);
+	printf("\nDEBUG: F = %Lf",F);
 
 	ab2 = ((a*a) - (b*b));	//space saver
-	printf("\nDEBUG: ab2 = %lf",ab2);
+	printf("\nDEBUG: ab2 = %Lf",ab2);
 
 	G = (r*r) + ((1 - (e*e)) * (z*z)) - ((e*e) * (ab2*ab2));
-	printf("\nDEBUG: G = %lf",G);
+	printf("\nDEBUG: G = %Lf",G);
 	c = ((e*e*e*e) * F * (r*r)) / (G*G*G);
-	printf("\nDEBUG: c = %lf",c);
+	printf("\nDEBUG: c = %Lf",c);
 	s = cbrt( 1 + c + sqrt((c*c) + (2*c)));
-	printf("\nDEBUG: s = %lf",s);
+	printf("\nDEBUG: s = %Lf",s);
 
 	sComb = s + (1/s) + 1;	//space saver
-	printf("\nDEBUG: sComb = %lf",sComb);
+	printf("\nDEBUG: sComb = %Lf",sComb);
 
 	P = F / (3 * (sComb*sComb) * (G*G));
-	printf("\nDEBUG: P = %lf",P);
+	printf("\nDEBUG: P = %Lf",P);
 	Q = sqrt( 1 + (2*(e*e*e*e)*P));
-	printf("\nDEBUG: Q = %lf",Q);
+	printf("\nDEBUG: Q = %Lf",Q);
 
 	rP1 = -(P*(e*e)*r) / (1 + Q);	//space saver
-	printf("\nDEBUG: rP1 = %lf",rP1);
+	printf("\nDEBUG: rP1 = %Lf",rP1);
 	rP2 = (0.5 * (a*a)) * (1 + (1/Q));	//space saver
-	printf("\nDEBUG: rP2 = %lf",rP2);
+	printf("\nDEBUG: rP2 = %Lf",rP2);
 	rP3 = (P * (1 - (e*e)) * (z*z)) / (Q * (1 + Q));	//space saver
-	printf("\nDEBUG: rP3 = %lf",rP3);
+	printf("\nDEBUG: rP3 = %Lf",rP3);
 	rP4 = (0.5 * P * (r*r));		//space saver
-	printf("\nDEBUG: rP4 = %lf",rP4);
+	printf("\nDEBUG: rP4 = %Lf",rP4);
 
 	r0 = rP1 + sqrt( rP2 - rP3 - rP4);
-	printf("\nDEBUG: r0 = %lf",r0);
+	printf("\nDEBUG: r0 = %Lf",r0);
 	U = sqrt( (r - ((e*e) * r0)) + (z*z));
-	printf("\nDEBUG: U = %lf",U);
+	printf("\nDEBUG: U = %Lf",U);
 
 	vP1 = (r - ((e*e) * r0));	//space saver
-	printf("\nDEBUG: vP1 = %lf",vP1);
+	printf("\nDEBUG: vP1 = %Lf",vP1);
 
 	V = sqrt((vP1 * vP1) + ((1 - (e*e)) * (z*z)));
-	printf("\nDEBUG: V = %lf",V);
+	printf("\nDEBUG: V = %Lf",V);
 	z0 = ((b*b) * z) / (a * V);
-	printf("\nDEBUG: z0 = %lf",z0);
+	printf("\nDEBUG: z0 = %Lf",z0);
 	
 	findLat = (z + (er2 * z0));	//space saver
-	printf("\nDEBUG: findLat = %lf",findLat);
+	printf("\nDEBUG: findLat = %Lf",findLat);
 
 	llh[0] = atan(findLat / r) * R2D;
 	llh[1] = atan2(y, x) * R2D;
