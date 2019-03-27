@@ -307,7 +307,7 @@ void xyz2llh(const double *xyz, double *llh)
 	llh[1] = atan2(y, x) * R2D;
 	llh[2] = ((z / t) - b) * sqrt(1 - ((e*e) *(1 - (t*t))));
 
-	printf("\nDEBUG: sig(z) = %lf",sig(z));
+	printf("\nDEBUG: sig(z) = %lf",sign(z));
 	printf("\nDEBUG: XYZ = %lf, %lf, %lf\n",xyz[0],xyz[1],xyz[2]);
 	printf("\nDEBUG: LLH = %lf, %lf, %lf\n",llh[0],llh[1],llh[2]);
 
