@@ -276,7 +276,7 @@ void xyz2llh(const double *xyz, double *llh)
 	r = sqrt((x*x) + (y*y));
 	printf("\nDEBUG: r = %lf",r);
 
-	A = (b * abs(z)) / ((a*a) * (b*b));
+	A = (b * abs(z)) / ((a*a) - (b*b));
 	printf("\nDEBUG: A = %lf",A);
 
 	B = (a * r) / ((a*a) - (b*b));
