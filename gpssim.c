@@ -306,16 +306,16 @@ void xyz2llh(const double *xyz, double *llh)
 	t = (sqrt( (A*A) - (B*B) + 1 - v + (((2*A)*((B*B)+1)) / U)) + U - A) / 2;
 	printf("\nDEBUG: t = %lf",t);
 
-	printf("\nDEBUG: sgn(z) = %ld",sgn(z));
+	printf("\nDEBUG: sgn(z) = %d",sgn(z));
 	printf("\nDEBUG: (b * sqrt(1 - (t*t))) = %lf",(b * sqrt(1 - (t*t))));
 	printf("\nDEBUG: ((a*t) / (b * sqrt(1 - (t*t))) = %lf",((a*t) / (b * sqrt(1 - (t*t)))));	
 
-	printf("\nDEBUG: abs(z) = %lf",abs(z));
+	printf("\nDEBUG: abs(z) = %d",abs(z));
 	printf("\nDEBUG: abs(z) / t = %lf",abs(z)/t);
 	printf("\nDEBUG: (abs(z) / t) - b = %lf",(abs(z)/t))-b;
 	printf("\nDEBUG: 1 - (t*t) = %lf",1-(t*t));
 	printf("\nDEBUG: (e*e) * (1 - (t*t)) = %lf",(e*e) *(1-(t*t)));
-	printf("\nDEBUG: sqrt(1 - (e*e) * (1 - (t*t))) = %lf",sqrt(1-((e*e) *(1-(t*t))));
+	printf("\nDEBUG: sqrt(1 - (e*e) * (1 - (t*t))) = %lf",sqrt(1-((e*e) *(1-(t*t)))));
 
 	llh[0] = sgn(z)*(atan2((a*t), (b*sqrt(1 - (t*t))))) * R2D;
 	llh[1] = atan2(y, x) * R2D;
