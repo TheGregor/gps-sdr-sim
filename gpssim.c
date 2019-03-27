@@ -276,6 +276,9 @@ void xyz2llh(const double *xyz, double *llh)
 	r = sqrt((x*x) + (y*y));
 	printf("\nDEBUG: r = %lf",r);
 
+	if (r <= 0.0)		//intermittent error
+		break;
+
 	A = (b * abs(z)) / ((a*a) - (b*b));
 	printf("\nDEBUG: A = %lf",A);
 
@@ -306,6 +309,13 @@ void xyz2llh(const double *xyz, double *llh)
 	printf("\nDEBUG: sgn(z) = %ld",sgn(z));
 	printf("\nDEBUG: (b * sqrt(1 - (t*t))) = %lf",(b * sqrt(1 - (t*t))));
 	printf("\nDEBUG: ((a*t) / (b * sqrt(1 - (t*t))) = %lf",((a*t) / (b * sqrt(1 - (t*t)))));	
+
+	printf("\nDEBUG: abs(z) = %lf",abs(z));
+	printf("\nDEBUG: abs(z) / t = %lf",abs(z)/t);
+	printf("\nDEBUG: (abs(z) / t) - b = %lf",(abs(z)/t))-b;
+	printf("\nDEBUG: 1 - (t*t) = %lf",1-(t*t));
+	printf("\nDEBUG: (e*e) * (1 - (t*t)) = %lf",(e*e) *(1-(t*t)));
+	printf("\nDEBUG: sqrt(1 - (e*e) * (1 - (t*t))) = %lf",sqrt(1-((e*e) *(1-(t*t))));
 
 	llh[0] = sgn(z)*(atan2((a*t), (b*sqrt(1 - (t*t))))) * R2D;
 	llh[1] = atan2(y, x) * R2D;
