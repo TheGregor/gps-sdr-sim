@@ -282,10 +282,10 @@ void xyz2llh(const double *xyz, double *llh)
 	B = (a * r) / ((a*a) - (b*b));
 	printf("\nDEBUG: B = %lf",B);
 
-	P = ((a*a) + (b*b) - 1) / 3;
+	P = ((A*A) + (B*B) - 1) / 3;
 	printf("\nDEBUG: P = %lf",P);
 
-	S = 2 * (a*a) * (b*b);
+	S = 2 * (A*A) * (B*B);
 	printf("\nDEBUG: S = %lf",S);
 
 	Q = (P*P*P) + S;
@@ -297,10 +297,10 @@ void xyz2llh(const double *xyz, double *llh)
 	v = cbrt(Q+D) + cbrt(Q-D) + P;
 	printf("\nDEBUG: v = %lf",v);
 
-	U = sqrt(v - (b*b) + 1);
+	U = sqrt(v - (B*B) + 1);
 	printf("\nDEBUG: U = %lf",U);
 
-	t = (sqrt( (a*a) - (b*b) + 1 - v + (((2*a)*((b*b)+1)) / U)) + U - A) / 2;
+	t = (sqrt( (A*A) - (B*B) + 1 - v + (((2*A)*((B*B)+1)) / U)) + U - A) / 2;
 	printf("\nDEBUG: t = %lf",t);
 
 	printf("\nDEBUG: sgn(z) = %lf",sgn(z));
