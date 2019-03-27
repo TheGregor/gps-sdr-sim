@@ -277,7 +277,7 @@ void xyz2llh(const double *xyz, double *llh)
 	printf("\nDEBUG: r = %lf",r);
 
 	if (r <= 0.0)		//intermittent error
-		break;
+		return;
 
 	A = (b * abs(z)) / ((a*a) - (b*b));
 	printf("\nDEBUG: A = %lf",A);
