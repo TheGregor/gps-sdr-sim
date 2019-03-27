@@ -303,11 +303,14 @@ void xyz2llh(const double *xyz, double *llh)
 	t = (sqrt( (a*a) - (b*b) + 1 - v + (((2*a)*((b*b)+1)) / U)) + U - A) / 2;
 	printf("\nDEBUG: t = %lf",t);
 
-	llh[0] = (atan2((a*t), (b*sqrt(1 - (t*t))))) * R2D;
-	llh[1] = atan2(y, x) * R2D;
-	llh[2] = ((z / t) - b) * sqrt(1 - ((e*e) *(1 - (t*t))));
+	printf("\nDEBUG: sgn(z) = %lf",sgn(z));
+	printf("\nDEBUG: (b * sqrt(1 - (t*t))) = %lf",(b * sqrt(1 - (t*t))));
+	printf("\nDEBUG: ((a*t) / (b * sqrt(1 - (t*t))) = %lf",((a*t) / (b * sqrt(1 - (t*t)))));	
 
-	printf("\nDEBUG: sig(z) = %lf",sign(z));
+	llh[0] = sgn(z)*(atan2((a*t), (b*sqrt(1 - (t*t))))) * R2D;
+	llh[1] = atan2(y, x) * R2D;
+	llh[2] = ((abs(z) / t) - b) * sqrt(1 - ((e*e) *(1 - (t*t))));
+
 	printf("\nDEBUG: XYZ = %lf, %lf, %lf\n",xyz[0],xyz[1],xyz[2]);
 	printf("\nDEBUG: LLH = %lf, %lf, %lf\n",llh[0],llh[1],llh[2]);
 
