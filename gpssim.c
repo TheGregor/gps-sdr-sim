@@ -233,7 +233,7 @@ void xyz2llh(const double *xyz, double *llh)
 	double Q,D,v,U;
 	double r,t;
 
-	a = WGS84_RADIUS;
+	a = WGS84_RADIUS / 1000;
 	e = WGS84_ECCENTRICITY;
 	b = a * sqrt(1 - (e * e));
 
