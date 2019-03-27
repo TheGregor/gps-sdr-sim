@@ -312,7 +312,8 @@ void xyz2llh(const double *xyz, double *llh)
 
 	printf("\nDEBUG: abs(z) = %d",abs(z));
 	printf("\nDEBUG: abs(z) / t = %lf",abs(z)/t);
-	printf("\nDEBUG: (abs(z) / t) - b = %lf",(abs(z)/t))-b;
+	printf("\nDEBUG: b = %lf",b);
+	printf("\nDEBUG: (abs(z) / t) - b = %lf",(abs(z)/t)-b);
 	printf("\nDEBUG: 1 - (t*t) = %lf",1-(t*t));
 	printf("\nDEBUG: (e*e) * (1 - (t*t)) = %lf",(e*e) *(1-(t*t)));
 	printf("\nDEBUG: sqrt(1 - (e*e) * (1 - (t*t))) = %lf",sqrt(1-((e*e) *(1-(t*t)))));
