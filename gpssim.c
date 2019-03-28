@@ -226,12 +226,16 @@ void gps2date(const gpstime_t *g, datetime_t *t)
  */
 void xyz2llh(const double *xyz, double *llh)
 {
+	/*
 	double a,b,e;
 	double x,y,z;
 	//double rho2,dz,zdz,nh,slat,n,dz_new;
 	double A,B,P,S;
 	double Q,D,v,U;
 	double r,t;
+	*/
+	double E,F,P,Q;
+	double D,v,G,t;
 
 	a = WGS84_RADIUS / 1000;	//set to meters, but barbee solution assumes km
 	e = WGS84_ECCENTRICITY;
@@ -272,6 +276,7 @@ void xyz2llh(const double *xyz, double *llh)
 	}*/
 
 
+	/*
 	//Barbee Solution
 	r = sqrt((x*x) + (y*y));
 	printf("\nDEBUG: r = %lf",r);
@@ -317,10 +322,24 @@ void xyz2llh(const double *xyz, double *llh)
 	printf("\nDEBUG: 1 - (t*t) = %lf",1-(t*t));
 	printf("\nDEBUG: (e*e) * (1 - (t*t)) = %lf",(e*e) *(1-(t*t)));
 	printf("\nDEBUG: sqrt(1 - (e*e) * (1 - (t*t))) = %lf",sqrt(1-((e*e) *(1-(t*t)))));
+	*/
 
-	llh[0] = sgn(z)*(atan2((a*t), (b*sqrt(1 - (t*t))))) * R2D;
+	E = ((b * abs(z)) - ((a*a) - (b*b))) / (a*r);
+	F = ((b * abs(z)) + ((a*a) - (b*b))) / (a*r);
+	P = (4/3) * ((E*F) + 1);
+	Q = 2 * ((E*E) - (F*F));
+	D = (P*P*P) + (Q*Q);
+	v = cbrt(sqrt(D) + Q) + cbrt(sqrt(D) - Q);
+	G = (sqrt((E*E) + v) + E) / 2;
+	t = sqrt((G*G) + ((F - (v*G)) / ((2*G) -E)) - G);
+
+	//llh[0] = sgn(z)*(atan2((a*t), (b*sqrt(1 - (t*t))))) * R2D;
+	llh[0] = sgn(z) * artan((a * (1 - (t*t))) / (2*b*t));
 	llh[1] = atan2(y, x) * R2D;
-	llh[2] = (((abs(z) / t) - b) * sqrt(1 - ((e*e) *(1 - (t*t))))) * 1000;
+	llh[2] = (r - (a*t)) * cos(llh[0]) + ((abs(z) - b) * sin(llh[0]));
+	//llh[2] = (((abs(z) / t) - b) * sqrt(1 - ((e*e) *(1 - (t*t))))) * 1000;
+
+	
 
 	printf("\nDEBUG: XYZ = %lf, %lf, %lf\n",xyz[0],xyz[1],xyz[2]);
 	printf("\nDEBUG: LLH = %lf, %lf, %lf\n",llh[0],llh[1],llh[2]);
