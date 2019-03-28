@@ -303,7 +303,7 @@ void xyz2llh(const double *xyz, double *llh)
 	U = sqrt(v - (B*B) + 1);
 	printf("\nDEBUG: U = %lf",U);
 
-	t = sqrt( ((A*A) - (B*B) + 1 - v + (((2*A)*((B*B)+1)) / U)) + U - A) / 2;
+	t = (sqrt( ((A*A) - (B*B) + 1 - v + (((2*A)*((B*B)+1)) / U))) + U - A) / 2;
 	printf("\nDEBUG: t = %lf",t);
 
 	printf("\nDEBUG: sgn(z) = %d",sgn(z));
