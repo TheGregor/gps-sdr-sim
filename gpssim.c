@@ -226,9 +226,10 @@ void gps2date(const gpstime_t *g, datetime_t *t)
  */
 void xyz2llh(const double *xyz, double *llh)
 {
-	/*
+	
 	double a,b,e;
 	double x,y,z;
+	/*
 	//double rho2,dz,zdz,nh,slat,n,dz_new;
 	double A,B,P,S;
 	double Q,D,v,U;
