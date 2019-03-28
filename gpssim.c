@@ -233,8 +233,8 @@ void xyz2llh(const double *xyz, double *llh)
 	//double rho2,dz,zdz,nh,slat,n,dz_new;
 	double A,B,P,S;
 	double Q,D,v,U;
-	double r,t;
 	*/
+	double r,t;
 	double E,F,P,Q;
 	double D,v,G,t;
 
@@ -277,14 +277,14 @@ void xyz2llh(const double *xyz, double *llh)
 	}*/
 
 
-	/*
+	
 	//Barbee Solution
 	r = sqrt((x*x) + (y*y));
 	printf("\nDEBUG: r = %lf",r);
 
 	if (r <= 0.0)		//intermittent error
 		return;
-
+	/*
 	A = (b * abs(z)) / ((a*a) - (b*b));
 	printf("\nDEBUG: A = %lf",A);
 
@@ -335,7 +335,7 @@ void xyz2llh(const double *xyz, double *llh)
 	t = sqrt((G*G) + ((F - (v*G)) / ((2*G) -E)) - G);
 
 	//llh[0] = sgn(z)*(atan2((a*t), (b*sqrt(1 - (t*t))))) * R2D;
-	llh[0] = sgn(z) * artan((a * (1 - (t*t))) / (2*b*t));
+	llh[0] = sgn(z) * atan((a * (1 - (t*t))) / (2*b*t));
 	llh[1] = atan2(y, x) * R2D;
 	llh[2] = (r - (a*t)) * cos(llh[0]) + ((abs(z) - b) * sin(llh[0]));
 	//llh[2] = (((abs(z) / t) - b) * sqrt(1 - ((e*e) *(1 - (t*t))))) * 1000;
