@@ -236,7 +236,7 @@ void xyz2llh(const double *xyz, double *llh)
 	*/
 	double r,t;
 	double E,F,P,Q;
-	double D,v,G,t;
+	double D,v,G;
 
 	a = WGS84_RADIUS / 1000;	//set to meters, but barbee solution assumes km
 	e = WGS84_ECCENTRICITY;
