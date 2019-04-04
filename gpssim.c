@@ -326,13 +326,14 @@ void xyz2llh(const double *xyz, double *llh)
 	*/
 
 	E = ((b * abs(z)) - ((a*a) - (b*b))) / (a*r);
+	printf("\nDEBUG: E = %lf",
 	F = ((b * abs(z)) + ((a*a) - (b*b))) / (a*r);
 	P = (4/3) * ((E*F) + 1);
 	Q = 2 * ((E*E) - (F*F));
 	D = (P*P*P) + (Q*Q);
 	v = cbrt(sqrt(D) + Q) + cbrt(sqrt(D) - Q);
 	G = (sqrt((E*E) + v) + E) / 2;
-	t = sqrt((G*G) + ((F - (v*G)) / ((2*G) -E)) - G);
+	t = sqrt((G*G) + ((F - (v*G)) / ((2*G) -E))) - G;
 
 	//llh[0] = sgn(z)*(atan2((a*t), (b*sqrt(1 - (t*t))))) * R2D;
 	llh[0] = sgn(z) * atan((a * (1 - (t*t))) / (2*b*t));
