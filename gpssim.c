@@ -323,7 +323,12 @@ void xyz2llh(const double *xyz, double *llh)
 
 	llh[0] = sgn(z)*(atan2((a*t), (b*sqrt(1 - (t*t))))) * R2D;
 	llh[1] = atan2(y, x) * R2D;
-	llh[2] = (((abs(z) / t) - b) * sqrt(1 - ((e*e) *(1 - (t*t))))) * 1000;
+	
+	height1 = ((2 * abs(z)) - (b * (U - abs(A)))) / (U - abs(A));
+	height2 = sqrt( (1 - (e*e)) + (((e*e) / 4 ) * ((U - abs(A)) * (U - abs(A)))));
+	llh2[2] = height1 * height2;
+
+	//llh[2] = (((abs(z) / t) - b) * sqrt(1 - ((e*e) *(1 - (t*t))))) * 1000;
 
 	
 
