@@ -326,7 +326,7 @@ void xyz2llh(const double *xyz, double *llh)
 	*/
 
 	E = ((b * abs(z)) - ((a*a) - (b*b))) / (a*r);
-	printf("\nDEBUG: E = %lf",
+	printf("\nDEBUG: E = %lf",E);
 	F = ((b * abs(z)) + ((a*a) - (b*b))) / (a*r);
 	P = (4/3) * ((E*F) + 1);
 	Q = 2 * ((E*E) - (F*F));
