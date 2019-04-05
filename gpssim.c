@@ -233,7 +233,6 @@ void xyz2llh(const double *xyz, double *llh)
 	double A,B,P,S;
 	double Q,D,v,U;
 	double r,t;
-	double height1, height2;
 
 	a = WGS84_RADIUS / 1000;	//set to meters, but barbee solution assumes km
 	e = WGS84_ECCENTRICITY;
@@ -324,14 +323,7 @@ void xyz2llh(const double *xyz, double *llh)
 
 	llh[0] = sgn(z)*(atan2((a*t), (b*sqrt(1 - (t*t))))) * R2D;
 	llh[1] = atan2(y, x) * R2D;
-	
-	height1 = ((2 * abs(z)) - (b * (U - abs(A)))) / (U - abs(A));
-	height2 = sqrt( (1 - (e*e)) + (((e*e) / 4 ) * ((U - abs(A)) * (U - abs(A)))));
-	llh[2] = height1 * height2;
-
-	//llh[2] = (((abs(z) / t) - b) * sqrt(1 - ((e*e) *(1 - (t*t))))) * 1000;
-
-	
+	llh[2] = (((abs(z) / t) - b) * sqrt(1 - ((e*e) *(1 - (t*t))))) * 1000;
 
 	printf("\nDEBUG: XYZ = %lf, %lf, %lf\n",xyz[0],xyz[1],xyz[2]);
 	printf("\nDEBUG: LLH = %lf, %lf, %lf\n",llh[0],llh[1],llh[2]);
