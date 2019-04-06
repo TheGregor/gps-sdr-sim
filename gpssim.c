@@ -276,49 +276,49 @@ void xyz2llh(const double *xyz, double *llh)
 	
 	//Barbee Solution
 	r = sqrt((x*x) + (y*y));
-	printf("\nDEBUG: r = %lf",r);
+	//printf("\nDEBUG: r = %lf",r);
 
 	if (r <= 0.0)		//intermittent error
 		return;
 	
 	A = (b * abs(z)) / ((a*a) - (b*b));
-	printf("\nDEBUG: A = %lf",A);
+	//printf("\nDEBUG: A = %lf",A);
 
 	B = (a * r) / ((a*a) - (b*b));
-	printf("\nDEBUG: B = %lf",B);
+	//printf("\nDEBUG: B = %lf",B);
 
 	P = ((A*A) + (B*B) - 1) / 3;
-	printf("\nDEBUG: P = %lf",P);
+	//printf("\nDEBUG: P = %lf",P);
 
 	S = 2 * (A*A) * (B*B);
-	printf("\nDEBUG: S = %lf",S);
+	//printf("\nDEBUG: S = %lf",S);
 
 	Q = (P*P*P) + S;
-	printf("\nDEBUG: Q = %lf",Q);
+	//printf("\nDEBUG: Q = %lf",Q);
 
 	D = sqrt(((2*Q) - S)*S);
-	printf("\nDEBUG: D = %lf",D);
+	//printf("\nDEBUG: D = %lf",D);
 
 	v = cbrt(Q+D) + cbrt(Q-D) + P;
-	printf("\nDEBUG: v = %lf",v);
+	//printf("\nDEBUG: v = %lf",v);
 
 	U = sqrt(v - (B*B) + 1);
-	printf("\nDEBUG: U = %lf",U);
+	//printf("\nDEBUG: U = %lf",U);
 
 	t = (sqrt( ((A*A) - (B*B) + 1 - v + (((2*A)*((B*B)+1)) / U))) + U - A) / 2;
-	printf("\nDEBUG: t = %lf",t);
+	//printf("\nDEBUG: t = %lf",t);
 
-	printf("\nDEBUG: sgn(z) = %d",sgn(z));
-	printf("\nDEBUG: (b * sqrt(1 - (t*t))) = %lf",(b * sqrt(1 - (t*t))));
-	printf("\nDEBUG: ((a*t) / (b * sqrt(1 - (t*t))) = %lf",((a*t) / (b * sqrt(1 - (t*t)))));	
+	//printf("\nDEBUG: sgn(z) = %d",sgn(z));
+	//printf("\nDEBUG: (b * sqrt(1 - (t*t))) = %lf",(b * sqrt(1 - (t*t))));
+	//printf("\nDEBUG: ((a*t) / (b * sqrt(1 - (t*t))) = %lf",((a*t) / (b * sqrt(1 - (t*t)))));	
 
-	printf("\nDEBUG: abs(z) = %d",abs(z));
-	printf("\nDEBUG: abs(z) / t = %lf",abs(z)/t);
-	printf("\nDEBUG: b = %lf",b);
-	printf("\nDEBUG: (abs(z) / t) - b = %lf",(abs(z)/t)-b);
-	printf("\nDEBUG: 1 - (t*t) = %lf",1-(t*t));
-	printf("\nDEBUG: (e*e) * (1 - (t*t)) = %lf",(e*e) *(1-(t*t)));
-	printf("\nDEBUG: sqrt(1 - (e*e) * (1 - (t*t))) = %lf",sqrt(1-((e*e) *(1-(t*t)))));
+	//printf("\nDEBUG: abs(z) = %d",abs(z));
+	//printf("\nDEBUG: abs(z) / t = %lf",abs(z)/t);
+	//printf("\nDEBUG: b = %lf",b);
+	//printf("\nDEBUG: (abs(z) / t) - b = %lf",(abs(z)/t)-b);
+	//printf("\nDEBUG: 1 - (t*t) = %lf",1-(t*t));
+	//printf("\nDEBUG: (e*e) * (1 - (t*t)) = %lf",(e*e) *(1-(t*t)));
+	//printf("\nDEBUG: sqrt(1 - (e*e) * (1 - (t*t))) = %lf",sqrt(1-((e*e) *(1-(t*t)))));
 	
 
 	llh[0] = sgn(z)*(atan2((a*t), (b*sqrt(1 - (t*t)))));
