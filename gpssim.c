@@ -366,7 +366,7 @@ void llh2xyz(const double *llh, double *xyz)
 	xyz[1] = (tmp*slon)/1000;
 	xyz[2] = (((1.0-e2)*n + llh[2])*slat)/1000;
 
-	printf("\nDEBUG: (XYZ) = %lf, %lf, %lf.\n",xyz[0],xyz[1],xyz[2]);
+	//printf("\nDEBUG: (XYZ) = %lf, %lf, %lf.\n",xyz[0],xyz[1],xyz[2]);
 
 	return;
 }
