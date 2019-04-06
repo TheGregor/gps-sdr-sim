@@ -405,7 +405,7 @@ void ltcmat(const double *llh, double t[3][3])
 	t[2][1] = clat*slon;
 	t[2][2] = slat;
 
-	printf("\nDEBUG:  lat/lon/alt = %lf, %lf, %lf\n",llh[0],llh[1],llh[2]);
+	//printf("\nDEBUG:  lat/lon/alt = %lf, %lf, %lf\n",llh[0],llh[1],llh[2]);
 
 	return;
 }
