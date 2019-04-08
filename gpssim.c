@@ -451,7 +451,7 @@ void enu2azel(double *azel, const double *xyz, const double *los)
     	elevDenom2 = (los[0]*los[0]) + (los[1]*los[1]) + (los[2]*los[2]);
 	elevation = elevNumer / sqrt(elevDenom1 * elevDenom2);
 	
-	az1 = (((-xyz[2]*xyz[0]*los[0]) - (xyz[2]*xyz[1]*los[1]) + (((xyz[0]*xyz[0])+(xyz[1]*xyz[1]))*los[2])) / sqrt( ((xyz[0]*xyz[0])+(xyz[1]*xyz[1])) * ((xyz[0]*xyz[0])+(xyz[1]*xyz[1])+(xyz[2]*xyz[2])) * ((los[0]*los[0])+(los[1]*los[1])+(los[2]*los[2])) );
+	az1 = (((-xyz[2]*xyz[0]*los[0]) - (xyz[2]*xyz[1]*los[1]) + (((xyz[0]*xyz[0])+(xyz[1]*xyz[1]))*los[2])) / sqrt( ((xyz[0]*xyz[0])+(xyz[1]*xyz[1])) * ((xyz[0]*xyz[0])+(xyz[1]*xyz[1])+(xyz[2]*xyz[2])) * ((los[0]*los[0])+(los[1]*los[1])+(los[2]*los[2]))) );
 	az2 = ((-xyz[1] * los[0]) + (xyz[0]*los[1])) / sqrt( ((xyz[0]*xyz[0])+(xyz[1]xyz[1])) * ((los[0]*los[0])+(los[1]*los[1])+(los[2]*los[2])) );
 	
 	azel[0] = atan(cos(az1),sin(az2));
