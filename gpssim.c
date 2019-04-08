@@ -281,7 +281,7 @@ void xyz2llh(const double *xyz, double *llh)
 	if (r <= 0.0)		//intermittent error
 		return;
 	
-	A = (b * abs(z)) / ((a*a) - (b*b));
+	A = (b * fabs(z)) / ((a*a) - (b*b));
 	//printf("\nDEBUG: A = %lf",A);
 
 	B = (a * r) / ((a*a) - (b*b));
@@ -323,7 +323,7 @@ void xyz2llh(const double *xyz, double *llh)
 
 	llh[0] = sgn(z)*(atan2((a*t), (b*sqrt(1 - (t*t)))));
 	llh[1] = atan2(y, x);
-	llh[2] = abs((((abs(z) / t) - b) * sqrt(1 - ((e*e) *(1 - (t*t)))))*1000);
+	llh[2] = abs((((fabs(z) / t) - b) * sqrt(1 - ((e*e) *(1 - (t*t)))))*1000);
 
 	//printf("\nDEBUG: XYZ = %lf, %lf, %lf\n",xyz[0],xyz[1],xyz[2]);
 	//printf("\nDEBUG: LLH = %lf, %lf, %lf\n",llh[0],llh[1],llh[2]);
