@@ -441,8 +441,8 @@ void enu2azel(double *azel, const double *enu)
 	ne = sqrt(enu[0]*enu[0] + enu[1]*enu[1]);
 	azel[1] = atan2(enu[2], ne);
 	*/
-	azel[0] = artan(enu[0]/enu[1]);
-	azel[1] = artan(enu[2]/enu[1]);
+	azel[0] = atan(enu[0]/enu[1]);
+	azel[1] = atan(enu[2]/enu[1]);
 	return;
 }
 
