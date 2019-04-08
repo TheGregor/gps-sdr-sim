@@ -432,14 +432,17 @@ void ecef2enu(const double *los, double t[3][3], double *enu)
 void enu2azel(double *azel, const double *enu)
 {
 	double ne;
-
+	
+	/*
 	azel[0] = atan2(enu[1],enu[0]); //in radians
 	if (azel[0]<0.0)
 		azel[0] += (2.0*PI);
 
 	ne = sqrt(enu[0]*enu[0] + enu[1]*enu[1]);
 	azel[1] = atan2(enu[2], ne);
-
+	*/
+	azel[0] = artan(enu[0]/enu[1]);
+	azel[1] = artan(enu[2]/enu[1]);
 	return;
 }
 
