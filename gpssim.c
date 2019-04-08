@@ -426,12 +426,16 @@ void ecef2enu(const double *los, double t[3][3], double *enu)
 }
 
 /*! \brief Convert North-Eeast-Up to Azimuth + Elevation
- *  \param[in] enu Input position in North-East-Up format
+ *  \param[in] xyz Input of user location in ECEF format.
+ *  \param[in] los Input of (pos - xyz).
  *  \param[out] azel Output array of azimuth + elevation as double
  */
-void enu2azel(double *azel, const double *enu)
+void enu2azel(double *azel, const double *xyz, const double los)
 {
-	double ne;
+	double azimuth,az1,az2;
+        double elevation,elevNumer,elevDenom1,elevDenom2;
+	
+	//double ne;
 	
 	/*
 	azel[0] = atan2(enu[1],enu[0]); //in radians
@@ -441,8 +445,17 @@ void enu2azel(double *azel, const double *enu)
 	ne = sqrt(enu[0]*enu[0] + enu[1]*enu[1]);
 	azel[1] = atan2(enu[2], ne);
 	*/
-	azel[0] = atan(enu[0]/enu[1]);
-	azel[1] = atan(enu[2]/enu[1]);
+	
+	elevNumer = (xyz[0]*los[0] + xyz[1]*los[1] + xyz[2]*los[2]);
+        elevDenom1 = (xyz[0]*xyz[0]) + (xyz[1]*xyz[1]) + (xyz[2]*xyz[2]);
+    	elevDenom2 = (los[0]*los[0]) + (los[1]*los[1]) + (los[2]*los[2]);
+	elevation = elevNumer / sqrt(elevDenom1 * elevDenom2);	(x*dx + y*dy + z*dz) / Sqrt((x^2+y^2+z^2)*(dx^2+dy^2+dz^2));
+	
+	az1 = (((-xyz[2]*xyz[0]*los[0]) - (xyz[2]*xyz[1]*los[1]) + (((xyz[0]*xyz[0])+(xyz[1]*xyz[1]))*los[2])) / sqrt( ((xyz[0]*xyz[0])+(xyz[1]*xyz[1])) * ((xyz[0]*xyz[0])+(xyz[1]*xyz[1])+(xyz[2]*xyz[2])) * ((los[0]*los[0])+(los[1]*los[1])+(los[2]*los[2])) );
+	az2 = ((-xyz[1] * los[0]) + (xyz[0]*los[1])) / sqrt( ((xyz[0]*xyz[0])+(xyz[1]xyz[1])) * ((los[0]*los[0])+(los[1]*los[1])+(los[2]*los[2])) );
+	
+	azel[0] = atan(cos(az1),sin(az2));
+	azel[1] = 90 - cos(elevation);
 	return;
 }
 
