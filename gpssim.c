@@ -1390,7 +1390,7 @@ void computeRange(range_t *rho, ephem_t eph, ionoutc_t *ionoutc, gpstime_t g, do
 	xyz2llh(xyz, llh);
 	ltcmat(llh, tmat);
 	ecef2enu(los, tmat, enu);
-	enu2azel(rho->azel, enu);
+	enu2azel(rho->azel, xyz, los);
 
 	// Add ionospheric delay
 	rho->iono_delay = ionosphericDelay(ionoutc, g, llh, rho->azel);
