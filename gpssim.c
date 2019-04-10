@@ -430,11 +430,8 @@ void ecef2enu(const double *los, double t[3][3], double *enu)
  *  \param[in] los Input of (pos - xyz).
  *  \param[out] azel Output array of azimuth + elevation as double
  */
-void enu2azel(double *azel, const double *xyz, const double *los)
+void enu2azel(double *azel, const double *los)
 {
-	double azimuth,az1,az2;
-        double elevation,elevNumer,elevDenom1,elevDenom2;
-	
 	//double ne;
 	
 	/*
@@ -446,16 +443,9 @@ void enu2azel(double *azel, const double *xyz, const double *los)
 	azel[1] = atan2(enu[2], ne);
 	*/
 	
-	elevNumer = (xyz[0]*los[0] + xyz[1]*los[1] + xyz[2]*los[2]);
-        elevDenom1 = (xyz[0]*xyz[0]) + (xyz[1]*xyz[1]) + (xyz[2]*xyz[2]);
-    	elevDenom2 = (los[0]*los[0]) + (los[1]*los[1]) + (los[2]*los[2]);
-	elevation = elevNumer / sqrt(elevDenom1 * elevDenom2);
-	
-	az1 = (((-xyz[2]*xyz[0]*los[0]) - (xyz[2]*xyz[1]*los[1]) + (((xyz[0]*xyz[0])+(xyz[1]*xyz[1]))*los[2])) / sqrt( ((xyz[0]*xyz[0])+(xyz[1]*xyz[1])) * ((xyz[0]*xyz[0])+(xyz[1]*xyz[1])+(xyz[2]*xyz[2])) * ((los[0]*los[0])+(los[1]*los[1])+(los[2]*los[2]))) );
-	az2 = ((-xyz[1] * los[0]) + (xyz[0]*los[1])) / sqrt( ((xyz[0]*xyz[0])+(xyz[1]*xyz[1])) * ((los[0]*los[0])+(los[1]*los[1])+(los[2]*los[2])) );
-	
-	azel[0] = atan(cos(az1) / sin(az2));
-	azel[1] = 90 - cos(elevation);
+
+	azel[0] = atan(los[0] / los[1]);
+	azel[1] = atan(los[2] / los[1]);
 	return;
 }
 
@@ -1390,7 +1380,7 @@ void computeRange(range_t *rho, ephem_t eph, ionoutc_t *ionoutc, gpstime_t g, do
 	xyz2llh(xyz, llh);
 	ltcmat(llh, tmat);
 	ecef2enu(los, tmat, enu);
-	enu2azel(rho->azel, xyz, los);
+	enu2azel(rho->azel, los);
 
 	// Add ionospheric delay
 	rho->iono_delay = ionosphericDelay(ionoutc, g, llh, rho->azel);
