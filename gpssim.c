@@ -1643,7 +1643,7 @@ int checkSatVisibility(ephem_t eph, gpstime_t g, double *xyz, double elvMask, do
 	ltcmat(llh, tmat);
 	printf("\nDEBUG: LLH = %lf, %lf, %lf\n",llh[0]*R2D,llh[1]*R2D,llh[2]);
 	ecef2enu(los, tmat, enu);
-	enu2azel(azel, xyz, los);
+	enu2azel(azel, los);
 
 	if (azel[1] > elvMask)  //removed '* R2D'
 		return (1); // Visible
