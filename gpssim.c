@@ -445,6 +445,8 @@ void enu2azel(double *azel, const double *los)
 	
 
 	azel[0] = atan(los[0] / los[1]);
+	if (azel[0]<0.0)
+		azel[0] += (2.0*PI);
 	azel[1] = atan(los[2] / los[1]);
 	return;
 }
