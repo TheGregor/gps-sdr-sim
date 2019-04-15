@@ -430,8 +430,10 @@ void ecef2enu(const double *los, double t[3][3], double *enu)
  *  \param[in] los Input of (pos - xyz).
  *  \param[out] azel Output array of azimuth + elevation as double
  */
-void enu2azel(double *azel, const double *los)
+void enu2azel(double *azel, const double *xyz, const double *los)
 {
+	double elev1, elev2;
+       	double azi1, azi2, azi3, azi4;
 	//double ne;
 	
 	/*
@@ -443,11 +445,25 @@ void enu2azel(double *azel, const double *los)
 	azel[1] = atan2(enu[2], ne);
 	*/
 	
+	elev1 = (xyz[0]*los[0] + xyz[1]*los[1] + xyz[2]*los[2]);
+       	elev2 = sqrt( (pow(xyz[0],2) + pow(xyz[1],2) + pow(xyz[2],2)) * (pow(los[0],2) + pow(los[1],2) + pow(los[2],2)) );
+	azel[1] = 90 - acos( cos( elev1/elev2 ) );
 
+	azi1 = (-(xyz[2]*xyz[0]*los[0]) - (xyz[2]*xyz[1]*los[1]) + ( (pow(xyz[0],2)+pow(xyz[1],2)) * los[2]));
+	azi2 = sqrt( (pow(xyz[0],2)+pow(xyz[1],2)) * (pow(xyz[0],2)+pow(xyz[1],2)+pow(xyz[2],2)) * (pow(los[0],2)+pow(los[1],2)+pow(los[2],2)) );
+	azi1 = cos(azi1/azi2);
+
+	azi3 = (-(xyz[2]*los[0]) + (xyz[0]*los[1]));
+	azi4 = sqrt( (pow(xyz[0],2)+pow(xyz[1],2)) * (pow(los[0],2)+pow(los[1],2)+pow(los[2],2)) );
+	azi3 = sin(azi3/azi4);
+
+	azel[0] = atan( azi3 );
+	/*
 	azel[0] = atan(los[0] / los[1]);
 	if (azel[0]<0.0)
 		azel[0] += (2.0*PI);
 	azel[1] = atan(los[2] / los[1]);
+	*/
 	return;
 }
 
@@ -1382,7 +1398,7 @@ void computeRange(range_t *rho, ephem_t eph, ionoutc_t *ionoutc, gpstime_t g, do
 	xyz2llh(xyz, llh);
 	ltcmat(llh, tmat);
 	ecef2enu(los, tmat, enu);
-	enu2azel(rho->azel, los);
+	enu2azel(rho->azel, xyz, los);
 
 	// Add ionospheric delay
 	rho->iono_delay = ionosphericDelay(ionoutc, g, llh, rho->azel);
@@ -1645,7 +1661,7 @@ int checkSatVisibility(ephem_t eph, gpstime_t g, double *xyz, double elvMask, do
 	ltcmat(llh, tmat);
 	printf("\nDEBUG: LLH = %lf, %lf, %lf\n",llh[0]*R2D,llh[1]*R2D,llh[2]);
 	ecef2enu(los, tmat, enu);
-	enu2azel(azel, los);
+	enu2azel(azel, xyz, los);
 
 	if (azel[1] > elvMask)  //removed '* R2D'
 		return (1); // Visible
