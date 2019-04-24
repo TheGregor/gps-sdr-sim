@@ -380,10 +380,10 @@ void ltcmat(const double *llh, double t[3][3])
 	double slat, clat;
 	double slon, clon;
 
-	slat = sin(llh[0]*R2D);		
-	clat = cos(llh[0]*R2D);		
-	slon = sin(llh[1]*R2D);		
-	clon = cos(llh[1]*R2D);
+	slat = sin(llh[0]);		
+	clat = cos(llh[0]);		
+	slon = sin(llh[1]);		
+	clon = cos(llh[1]);
 
 	//t[0][0] = -slat*clon;
 	//t[0][1] = -slat*slon;
@@ -398,14 +398,12 @@ void ltcmat(const double *llh, double t[3][3])
 	t[0][0] = -slon; 
 	t[0][1] = clon;
 	t[0][2] = 0.0;
-	t[1][0] = -slat*clon;
-	t[1][1] = -slat*slon;
+	t[1][0] = -clon*slat;
+	t[1][1] = -slon*slat;
 	t[1][2] = clat;
-	t[2][0] = clat*clon;
-	t[2][1] = clat*slon;
+	t[2][0] = clon*clat;
+	t[2][1] = slon*clat;
 	t[2][2] = slat;
-
-	//printf("\nDEBUG:  lat/lon/alt = %lf, %lf, %lf\n",llh[0],llh[1],llh[2]);
 
 	return;
 }
@@ -433,7 +431,7 @@ void ecef2enu(const double *los, double t[3][3], double *enu)
 void enu2azel(double *azel, const double *los)
 {
 	double ne;
-	
+	double pHat;
 	/*
 	azel[0] = atan2(enu[1],enu[0]); //in radians
 	if (azel[0]<0.0)
@@ -442,7 +440,7 @@ void enu2azel(double *azel, const double *los)
 	ne = sqrt(enu[0]*enu[0] + enu[1]*enu[1]);
 	azel[1] = atan2(enu[2], ne);
 	*/
-	
+
 	
 	azel[0] = atan(los[1] / los[0]);
 	if (azel[0]<0.0)
