@@ -436,8 +436,7 @@ void enu2azel(double *azel, const double *los, const double *enu)
 	double pE;
 	double pN;
 	double pU;
-
-	std::complex<double> normedLOS (los[0], los[1], los[2]);
+	double normedLOS
 	/*
 	azel[0] = atan2(enu[1],enu[0]); //in radians
 	if (azel[0]<0.0)
@@ -447,9 +446,11 @@ void enu2azel(double *azel, const double *los, const double *enu)
 	azel[1] = atan2(enu[2], ne);
 	*/
 
-	pHat[0] = los[0] / std::norm(normedLOS);
-       	pHat[1] = los[1] / std::norm(normedLOS);
-	pHat[2] = los[2] / std::norm(normedLOS);	
+	normedLOS = pow(los[0],2.0) + pow(los[1],2.0) + pow(los[2],2.0)
+
+	pHat[0] = los[0] / normedLOS;
+       	pHat[1] = los[1] / normedLOS;
+	pHat[2] = los[2] / normedLOS;	
 	
 	pE = (pHat[0]*enu[0]) + (pHat[1]*enu[0]) + (pHat[2]*enu[0]);
 	pN = (pHat[0]*enu[1]) + (pHat[1]*enu[1]) + (pHat[2]*enu[1]);
