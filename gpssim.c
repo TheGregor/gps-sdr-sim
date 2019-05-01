@@ -428,10 +428,13 @@ void ecef2enu(const double *los, double t[3][3], double *enu)
  *  \param[in] los Input of (pos - xyz).
  *  \param[out] azel Output array of azimuth + elevation as double
  */
-void enu2azel(double *azel, const double *los)
+void enu2azel(double *azel, const double *los, const double *enu)
 {
-	double ne;
-	double pHat;
+	//double ne;
+	double *pHat[3];
+	double pE;
+	double pN;
+	double pU;
 	/*
 	azel[0] = atan2(enu[1],enu[0]); //in radians
 	if (azel[0]<0.0)
@@ -441,13 +444,17 @@ void enu2azel(double *azel, const double *los)
 	azel[1] = atan2(enu[2], ne);
 	*/
 
+	pHat[0] = los[0] / norm(los[0],los[1],los[2]);
+       	pHat[1] = los[1] / norm(los[0],los[1],los[2]);
+	pHat[2] = los[2] / norm(los[0],los[1],los[2]);	
 	
-	azel[0] = atan(los[1] / los[0]);
-	if (azel[0]<0.0)
-		azel[0] += (2.0*PI);
-	ne = sqrt( pow(los[0],2) + pow(los[1],2) );
-	azel[1] = atan2(los[2], ne);
-	
+	pE = (pHat[0]*enu[0]) + (pHat[1]*enu[0]) + (pHat[2]*enu[0]);
+	pN = (pHat[0]*enu[1]) + (pHat[1]*enu[1]) + (pHat[2]*enu[1]);
+	pU = (pHat[0]*enu[2]) + (pHat[1]*enu[2]) + (pHat[2]*enu[2]);
+
+
+	azel[0] = atan(	pE / pN );
+	azel[1] = asin( pU );
 	return;
 }
 
