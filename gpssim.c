@@ -436,7 +436,7 @@ void enu2azel(double *azel, const double *los, const double *enu)
 	double pE;
 	double pN;
 	double pU;
-	double normedLOS
+	double normedLOS;
 	/*
 	azel[0] = atan2(enu[1],enu[0]); //in radians
 	if (azel[0]<0.0)
@@ -446,7 +446,7 @@ void enu2azel(double *azel, const double *los, const double *enu)
 	azel[1] = atan2(enu[2], ne);
 	*/
 
-	normedLOS = pow(los[0],2.0) + pow(los[1],2.0) + pow(los[2],2.0)
+	normedLOS = pow(los[0],2.0) + pow(los[1],2.0) + pow(los[2],2.0);
 
 	pHat[0] = los[0] / normedLOS;
        	pHat[1] = los[1] / normedLOS;
