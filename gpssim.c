@@ -432,7 +432,7 @@ void ecef2enu(const double *los, double t[3][3], double *enu)
 void enu2azel(double *azel, const double *los, const double *enu)
 {
 	//double ne;
-	double pHat[3];
+	double pHat;
 	double pE;
 	double pN;
 	double pU;
@@ -448,13 +448,13 @@ void enu2azel(double *azel, const double *los, const double *enu)
 
 	normedLOS = pow(los[0],2.0) + pow(los[1],2.0) + pow(los[2],2.0);
 
-	pHat[0] = los[0] / normedLOS;
-       	pHat[1] = los[1] / normedLOS;
-	pHat[2] = los[2] / normedLOS;	
+	pHat = (los[0] / normedLOS) + (los[1] / normedLOS) + (los[2] / normedLOS);
+       	//pHat[1] = los[1] / normedLOS;
+	//pHat[2] = los[2] / normedLOS;	
 	
-	pE = (pHat[0]*enu[0]) + (pHat[1]*enu[0]) + (pHat[2]*enu[0]);
-	pN = (pHat[0]*enu[1]) + (pHat[1]*enu[1]) + (pHat[2]*enu[1]);
-	pU = (pHat[0]*enu[2]) + (pHat[1]*enu[2]) + (pHat[2]*enu[2]);
+	pE = (pHat*enu[0]);
+	pN = (pHat*enu[1]);
+	pU = (pHat*enu[2]);
 
 
 	azel[0] = atan(	pE / pN );
