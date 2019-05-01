@@ -11,6 +11,7 @@
 #include <unistd.h>
 #endif
 #include "gpssim.h"
+#include <complex.h>
 
 #define sgn(v) ( ( (v) < 0 ) ? -1 : ( (v) > 0 ) )
 
@@ -431,7 +432,7 @@ void ecef2enu(const double *los, double t[3][3], double *enu)
 void enu2azel(double *azel, const double *los, const double *enu)
 {
 	//double ne;
-	double *pHat[3];
+	double pHat[3];
 	double pE;
 	double pN;
 	double pU;
@@ -444,9 +445,9 @@ void enu2azel(double *azel, const double *los, const double *enu)
 	azel[1] = atan2(enu[2], ne);
 	*/
 
-	pHat[0] = los[0] / norm(los[0],los[1],los[2]);
-       	pHat[1] = los[1] / norm(los[0],los[1],los[2]);
-	pHat[2] = los[2] / norm(los[0],los[1],los[2]);	
+	pHat[0] = los[0] / std::norm(los[0],los[1],los[2]);
+       	pHat[1] = los[1] / std::norm(los[0],los[1],los[2]);
+	pHat[2] = los[2] / std::norm(los[0],los[1],los[2]);	
 	
 	pE = (pHat[0]*enu[0]) + (pHat[1]*enu[0]) + (pHat[2]*enu[0]);
 	pN = (pHat[0]*enu[1]) + (pHat[1]*enu[1]) + (pHat[2]*enu[1]);
@@ -1389,7 +1390,7 @@ void computeRange(range_t *rho, ephem_t eph, ionoutc_t *ionoutc, gpstime_t g, do
 	xyz2llh(xyz, llh);
 	ltcmat(llh, tmat);
 	ecef2enu(los, tmat, enu);
-	enu2azel(rho->azel, los);
+	enu2azel(rho->azel, los, enu);
 
 	// Add ionospheric delay
 	rho->iono_delay = ionosphericDelay(ionoutc, g, llh, rho->azel);
@@ -1652,7 +1653,7 @@ int checkSatVisibility(ephem_t eph, gpstime_t g, double *xyz, double elvMask, do
 	ltcmat(llh, tmat);
 	printf("\nDEBUG: LLH = %lf, %lf, %lf\n",llh[0]*R2D,llh[1]*R2D,llh[2]);
 	ecef2enu(los, tmat, enu);
-	enu2azel(azel, los);
+	enu2azel(azel, los, enu);
 
 	if (azel[1] > elvMask)  //removed '* R2D'
 		return (1); // Visible
