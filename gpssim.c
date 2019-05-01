@@ -445,9 +445,9 @@ void enu2azel(double *azel, const double *los, const double *enu)
 	azel[1] = atan2(enu[2], ne);
 	*/
 
-	pHat[0] = los[0] / std::norm(los[0],los[1],los[2]);
-       	pHat[1] = los[1] / std::norm(los[0],los[1],los[2]);
-	pHat[2] = los[2] / std::norm(los[0],los[1],los[2]);	
+	pHat[0] = los[0] / norm(los[0],los[1],los[2]);
+       	pHat[1] = los[1] / norm(los[0],los[1],los[2]);
+	pHat[2] = los[2] / norm(los[0],los[1],los[2]);	
 	
 	pE = (pHat[0]*enu[0]) + (pHat[1]*enu[0]) + (pHat[2]*enu[0]);
 	pN = (pHat[0]*enu[1]) + (pHat[1]*enu[1]) + (pHat[2]*enu[1]);
