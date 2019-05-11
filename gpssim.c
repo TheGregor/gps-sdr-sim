@@ -432,10 +432,8 @@ void ecef2enu(const double *los, double t[3][3], double *enu)
 void enu2azel(double *azel, const double *los, const double *enu)
 {
 	//double ne;
-	double pHat;
-	double pE;
-	double pN;
-	double pU;
+	double rhoHat[3];
+	double rho_E, rho_N, rho_U;
 	double normedLOS;
 	/*
 	azel[0] = atan2(enu[1],enu[0]); //in radians
@@ -448,17 +446,16 @@ void enu2azel(double *azel, const double *los, const double *enu)
 
 	normedLOS = sqrt( pow(los[0],2.0) + pow(los[1],2.0) + pow(los[2],2.0) );
 
-	pHat = (los[0] / normedLOS) + (los[1] / normedLOS) + (los[2] / normedLOS);
-       	//pHat[1] = los[1] / normedLOS;
-	//pHat[2] = los[2] / normedLOS;	
+	rhoHat[0] = (los[0] / normedLOS);
+        rhoHat[1] = (los[1] / normedLOS);
+       	rhoHat[2] = (los[2] / normedLOS);	
 	
-	pE = (pHat*enu[0]);
-	pN = (pHat*enu[1]);
-	pU = (pHat*enu[2]);
+	rho_E = rhoHat[0] * enu[0];
+	rho_N = rhoHat[1] * enu[1];
+	rho_U = rhoHat[2] * enu[2];
 
-
-	azel[0] = atan(	pE / pN );
-	azel[1] = asin( pU );
+	azel[0] = atan(	rho_E / rho_N );
+	azel[1] = asin( rho_U );
 	return;
 }
 
