@@ -459,6 +459,8 @@ void enu2azel(double *azel, const double *los, const double *enu)
 	printf("\nDEBUG:  rho_ENU = %lf, %lf, %lf\n",rho_E,rho_N,rho_U);
 
 	azel[0] = atan(	rho_E / rho_N );
+	if azel[0] < 0.0
+		azel[0] += 360;
 	azel[1] = asin( rho_U );
 	return;
 
