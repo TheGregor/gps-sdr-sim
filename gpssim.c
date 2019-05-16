@@ -397,13 +397,13 @@ void ltcmat(const double *llh, double t[3][3])
 	//t[2][2] = slat;
 	
 	t[0][0] = -slon; 
-	t[0][1] = clon;
-	t[0][2] = 0.0;
-	t[1][0] = -clon*slat;
+	t[0][1] = -clon*slat;
+	t[0][2] = clon*clat;
+	t[1][0] = clon;
 	t[1][1] = -slon*slat;
-	t[1][2] = clat;
-	t[2][0] = clon*clat;
-	t[2][1] = slon*clat;
+	t[1][2] = slon*clat;
+	t[2][0] = 0.0;
+	t[2][1] = clat;
 	t[2][2] = slat;
 
 	return;
@@ -417,9 +417,9 @@ void ltcmat(const double *llh, double t[3][3])
  */
 void ecef2enu(const double *los, double t[3][3], double *enu)
 {
-	enu[0] = t[0][0]*los[0] + t[0][1]*los[1] + t[0][2]*los[2];
-	enu[1] = t[1][0]*los[0] + t[1][1]*los[1] + t[1][2]*los[2];
-	enu[2] = t[2][0]*los[0] + t[2][1]*los[1] + t[2][2]*los[2];
+	enu[0] = t[0][0]*los[0] + t[1][0]*los[0] + t[2][0]*los[0];
+	enu[1] = t[0][1]*los[1] + t[1][1]*los[1] + t[2][1]*los[1];
+	enu[2] = t[0][3]*los[2] + t[1][2]*los[2] + t[2][2]*los[2];
 
 	return;
 }
