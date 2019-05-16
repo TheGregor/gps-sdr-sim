@@ -454,8 +454,8 @@ void enu2azel(double *azel, const double *los, const double *enu)
 	rho_N = rhoHat[1] * enu[1];
 	rho_U = rhoHat[2] * enu[2];
 
-	azel[0] = atan(	rho_E / rho_N );
-	azel[1] = asin( rho_U );
+	azel[0] = atan(	(rho_E / rho_N) / R2D );
+	azel[1] = asin( rho_U / R2D );
 	return;
 }
 
