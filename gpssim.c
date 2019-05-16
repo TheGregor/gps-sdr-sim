@@ -449,10 +449,14 @@ void enu2azel(double *azel, const double *los, const double *enu)
 	rhoHat[0] = (los[0] / normedLOS);
         rhoHat[1] = (los[1] / normedLOS);
        	rhoHat[2] = (los[2] / normedLOS);	
-	
+
+	printf("\nDEBUG:  rhoHat = %lf, %lf, %lf\n",rhoHat[0],rhoHat[1],rhoHat[2]);
+
 	rho_E = rhoHat[0] * enu[0];
 	rho_N = rhoHat[1] * enu[1];
 	rho_U = rhoHat[2] * enu[2];
+
+	printf("\nDEBUG:  rho_ENU = %lf, %lf, %lf\n",rho_E,rho_N,rho_U);
 
 	azel[0] = atan(	rho_E / rho_N );
 	azel[1] = asin( rho_U );
