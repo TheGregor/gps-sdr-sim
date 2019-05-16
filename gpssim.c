@@ -454,9 +454,11 @@ void enu2azel(double *azel, const double *los, const double *enu)
 	rho_N = rhoHat[1] * enu[1];
 	rho_U = rhoHat[2] * enu[2];
 
-	azel[0] = atan(	(rho_E / rho_N) / R2D );
-	azel[1] = asin( rho_U / R2D );
+	azel[0] = atan(	rho_E / rho_N );
+	azel[1] = asin( rho_U );
 	return;
+
+	printf("\nDEBUG:  azel[0] = %lf, azel[1] = %lf\n",azel[0],azel[1]);
 }
 
 /*! \brief Compute Satellite position, velocity and clock at given time
@@ -1648,10 +1650,10 @@ int checkSatVisibility(ephem_t eph, gpstime_t g, double *xyz, double elvMask, do
 	satpos(eph, g, pos, vel, clk);
 	subVect(los, pos, xyz);
 	
-	printf("\nDEBUG: XYZ = %lf, %lf, %lf\n",xyz[0],xyz[1],xyz[2]);	
+	//printf("\nDEBUG: XYZ = %lf, %lf, %lf\n",xyz[0],xyz[1],xyz[2]);	
 	xyz2llh(xyz,llh);
 	ltcmat(llh, tmat);
-	printf("\nDEBUG: LLH = %lf, %lf, %lf\n",llh[0]*R2D,llh[1]*R2D,llh[2]);
+	//printf("\nDEBUG: LLH = %lf, %lf, %lf\n",llh[0]*R2D,llh[1]*R2D,llh[2]);
 	ecef2enu(los, tmat, enu);
 	enu2azel(azel, los, enu);
 
