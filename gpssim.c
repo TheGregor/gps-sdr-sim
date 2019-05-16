@@ -460,7 +460,7 @@ void enu2azel(double *azel, const double *los, const double *enu)
 
 	azel[0] = atan(	rho_E / rho_N );
 	if (azel[0] < 0.0)
-		azel[0] += 360;
+		azel[0] += (2.0*PI);
 	azel[1] = asin( rho_U );
 
 	printf("\nDEBUG:  azel[0] = %lf, azel[1] = %lf\n",azel[0],azel[1]);
