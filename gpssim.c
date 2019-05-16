@@ -452,9 +452,9 @@ void enu2azel(double *azel, const double *los, const double *enu)
 
 	printf("\nDEBUG:  rhoHat = %lf, %lf, %lf\n",rhoHat[0],rhoHat[1],rhoHat[2]);
 
-	rho_E = rhoHat[0] * (enu[0] / 1000);
-	rho_N = rhoHat[1] * (enu[1] / 1000);
-	rho_U = rhoHat[2] * (enu[2] / 1000);
+	rho_E = rhoHat[0] * enu[0];
+	rho_N = rhoHat[1] * enu[1];
+	rho_U = rhoHat[2] * enu[2];
 
 	printf("\nDEBUG:  rho_ENU = %lf, %lf, %lf\n",rho_E,rho_N,rho_U);
 
@@ -462,9 +462,10 @@ void enu2azel(double *azel, const double *los, const double *enu)
 	if (azel[0] < 0.0)
 		azel[0] += 360;
 	azel[1] = asin( rho_U );
-	return;
 
 	printf("\nDEBUG:  azel[0] = %lf, azel[1] = %lf\n",azel[0],azel[1]);
+
+	return;
 }
 
 /*! \brief Compute Satellite position, velocity and clock at given time
